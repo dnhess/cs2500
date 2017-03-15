@@ -16,7 +16,7 @@ int main() {
 	short sensornumber;
 	int R = 5;
 	cin >> sensornumber;
-50
+
 	int grid[50][50];
 	for(int a = 0; a < 50; a++)
 	{
