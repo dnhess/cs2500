@@ -49,18 +49,21 @@ int main() {
 	vector <Sensor> sensor;
 	cin >> sensornumber;
 
+	//Randomly add the sensors to random positions
 	for (int i = 0; i <= sensornumber; i++) {
+		//TODO: This is not random the numbers are the same everytime
 		int rnd = rand() % (50 * 50);
 		int x = rnd % 50;
 		int y = rnd / 50;
 		sensor.push_back(Sensor(x,y,300));
 	}
 
+	//TODO: Remove sample output
 	for(int i = 0; i < sensornumber; i++) {
 		cout << "--------------------ITERATION: "
 				"" << i << "--------------------" << endl;
 		cout << sensor[i];
 	}
-	return 0;
+
 }
 
