@@ -14,44 +14,15 @@ int main() {
 	 * looking for the 1s. Once it finds a 1 it will check to see if there
 	 * are any 1s in a radius of 5
 	 */
-/*
-	short sensornumber;
-	int R = 5;
-	cin >> sensornumber;
-
-	int grid[50][50];
-	for(int a = 0; a < 50; a++)
-	{
-		for(int b = 0; b < 50; b++)
-		{
-			grid[a][b] = 0;
-		}
-	}
-	for (int i = 0; i <=sensornumber; i++)
-	{
-		int rnd = rand() % (50*50);
-		int x = rnd % 50;
-		int y = rnd / 50;
-		grid[x][y] = 1;
-	}
-
-
-
-	for(int c = 0; c < 50; c++)
-	{
-		for(int d = 0; d < 50; d++)
-			cout <<"|"<<grid[c][d]<<"|";
-		cout <<endl;
-	}
- */
+	srand(time(NULL));
 	int sensornumber;
 	int RADIUS = 5;
 	vector <Sensor> sensor;
+	//vector <Sensor> intersections;
 	cin >> sensornumber;
 
 	//Randomly add the sensors to random positions
 	for (int i = 0; i <= sensornumber; i++) {
-		//TODO: This is not random the numbers are the same everytime
 		int rnd = rand() % (50 * 50);
 		int x = rnd % 50;
 		int y = rnd / 50;
@@ -65,5 +36,15 @@ int main() {
 		cout << sensor[i];
 	}
 
+/*
+	//Testing basic math
+
+	cout <<"Value of energy of sensor 1"<<endl;
+	cout <<sensor[1].energy<<endl;
+	cout <<"taking half of it"<<endl;
+	sensor[1].energy = sensor[1].energy/2; //Need to do this to get changes
+	// to stick
+	cout <<sensor[1].energy<<endl;
+*/
 }
 
