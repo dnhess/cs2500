@@ -1,4 +1,6 @@
 #include <iostream>
+#include <vector>
+#include "sensor.h"
 using namespace std;
 int main() {
 	//Code Idea
@@ -12,7 +14,7 @@ int main() {
 	 * looking for the 1s. Once it finds a 1 it will check to see if there
 	 * are any 1s in a radius of 5
 	 */
-
+/*
 	short sensornumber;
 	int R = 5;
 	cin >> sensornumber;
@@ -33,11 +35,32 @@ int main() {
 		grid[x][y] = 1;
 	}
 
+
+
 	for(int c = 0; c < 50; c++)
 	{
 		for(int d = 0; d < 50; d++)
 			cout <<"|"<<grid[c][d]<<"|";
 		cout <<endl;
 	}
+ */
+	int sensornumber;
+	int RADIUS = 5;
+	vector <Sensor> sensor;
+	cin >> sensornumber;
 
+	for (int i = 0; i <= sensornumber; i++) {
+		int rnd = rand() % (50 * 50);
+		int x = rnd % 50;
+		int y = rnd / 50;
+		sensor.push_back(Sensor(x,y,300));
+	}
+
+	for(int i = 0; i < sensornumber; i++) {
+		cout << "--------------------ITERATION: "
+				"" << i << "--------------------" << endl;
+		cout << sensor[i];
+	}
+	return 0;
 }
+
