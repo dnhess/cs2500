@@ -22,6 +22,5 @@ public:
 	friend bool operator==(const Sensor &s1, const Sensor &s2);
 	//Allows for subtraction of two sensors (Could be useful later)
 	Sensor operator-(Sensor);
-
 };
 #endif //CS2500_SENSOR_H

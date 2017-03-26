@@ -1,5 +1,7 @@
 #include <iostream>
 #include <vector>
+#include <math.h>
+#include <algorithm>
 #include "sensor.h"
 using namespace std;
 int main() {
@@ -17,8 +19,12 @@ int main() {
 	srand(time(NULL));
 	int sensornumber;
 	int RADIUS = 5;
-	vector <Sensor> sensor;
-	//vector <Sensor> intersections;
+	int distance;
+	int count = 0;
+	bool contains;
+	vector <Sensor> sensor;  //Initial Sensors that are generated
+	vector <Sensor> withinRADIUS; //Sensors that are within a 5 distance
+	vector <Sensor> alwaysALIVE; //Sensors that will always be active
 	cin >> sensornumber;
 
 	//Randomly add the sensors to random positions
@@ -29,11 +35,60 @@ int main() {
 		sensor.push_back(Sensor(x,y,300));
 	}
 
+
+	//Testing to find if sensors are in distance < RADIUS
+	for (int i = 0; i <= sensornumber; i++){
+		for (int j = 0; j <= sensornumber; j++) {
+			distance = sqrt(((sensor[i].xpos - sensor[j].xpos) *
+			                 (sensor[i].xpos - sensor[j].xpos)) +
+			                ((sensor[i].ypos - sensor[j].ypos) *
+			                 (sensor[i].ypos - sensor[j].ypos)));
+			if(distance <= RADIUS && distance != 0) {
+				if(find(withinRADIUS.begin(), withinRADIUS.end(), sensor[j])
+				   != withinRADIUS.end()){}
+				else
+				{
+					//TODO: Remove sample output
+					withinRADIUS.push_back(sensor[j]);
+					count++;
+					cout << "INTERSECTION AT POINTS: " << endl;
+					cout <<sensor[i];
+					cout <<sensor[j];
+					cout <<"with a distance of: "<<distance<<endl;
+					cout <<"count: "<<count<<endl;
+				}
+			}
+		}
+	}
+
+	//Puts ones that have nothing close to it into always alive vector
+	for(int i = 0; i < sensornumber; i++)
+	{
+		if(find(withinRADIUS.begin(), withinRADIUS.end(), sensor[i])
+		 != withinRADIUS.end()){}
+		else{
+			alwaysALIVE.push_back(sensor[i]);
+		}
+	}
+
+
 	//TODO: Remove sample output
 	for(int i = 0; i < sensornumber; i++) {
 		cout << "--------------------ITERATION: "
 				"" << i << "--------------------" << endl;
 		cout << sensor[i];
+	}
+	cout << "*****IN RADIUS*****" << endl;
+	for(int i = 0; i < withinRADIUS.size(); i++) {
+		cout << withinRADIUS[i];
+		cout <<"COUNT: "<<i<<endl;
+	}
+
+	//Always alive
+	cout <<"-----ALWAYS ALIVE-----"<<endl;
+	for(int i = 0; i < alwaysALIVE.size(); i++){
+		cout <<alwaysALIVE[i];
+		cout <<"COUNT: "<<i<<endl;
 	}
 
 /*
