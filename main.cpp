@@ -27,8 +27,8 @@ int main() {
 	vector <Sensor> sensor;  //Initial Sensors that are generated
 	vector <Sensor> withinRADIUS; //Sensors that are within a 5 distance
 	vector <Sensor> active; //Sensors that will always be active
-	//vector <intpts> interpts; //The location of the intersection
-	//                       points
+
+
 	cin >> sensornumber;
 
 	//Randomly add the sensors to random positions
@@ -81,6 +81,7 @@ int main() {
 
 
 	//TODO: Remove sample output
+	/*
 	for(int i = 0; i < sensornumber; i++) {
 		cout << "--------------------ITERATION: "
 				"" << i << "--------------------" << endl;
@@ -98,21 +99,22 @@ int main() {
 		cout <<active[i];
 		cout <<"COUNT: "<<i<<endl;
 	}
-
+*/
 	return 0;
 }
-//TODO: Make sure the math is correct
+
+
 void getintpts(int i_x0, int i_y0, int i_x1, int i_y1, int d)
 {
 	int a, b, h, x3, y3, x4, y4, x2, y2;
-	x2 = i_x0+d;
-	y2 = i_y0 + d;
 	a = ((d*d)/(2*d));
+	x2 = i_x0 + ((a*(i_x1-i_x0))/d);
+	y2 = i_y0 + ((a*(i_y1-i_y0))/d);
 	b = a;
 	h = sqrt((RADIUS * RADIUS) - (a*a));
 
-	x3 = x2 + (((h*(i_y1 - i_y0)))/d);
-	x4 = x2 - (((h*(i_y1 - i_y0)))/d);
+	x4 = x2 + (((h*(i_y1 - i_y0)))/d);
+	x3 = x2 - (((h*(i_y1 - i_y0)))/d);
 	y3 = y2 + (((h*(i_x1 - i_x0)))/d);
 	y4 = y2 - (((h*(i_x1 - i_x0)))/d);
 
