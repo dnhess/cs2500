@@ -9,6 +9,7 @@ ostream& operator <<(ostream& outs, const Sensor& sensor) {
 	outs << "xpos: " << sensor.xpos<<endl;
 	outs << "ypos: " << sensor.ypos<<endl;
 	outs << "energy: " << sensor.energy<<endl;
+	outs << "alive: " << sensor.alive<<endl;
 	return outs;
 }
 //Comparison of sensors
@@ -21,5 +22,6 @@ Sensor Sensor ::operator-(Sensor t) {
 	tmp.xpos = xpos - t.xpos;
 	tmp.ypos = ypos - t.ypos;
 	tmp.energy = t.energy;
+	tmp.alive = t.alive;
 	return tmp;
 }

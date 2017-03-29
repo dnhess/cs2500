@@ -3,7 +3,11 @@
 #include <math.h>
 #include <algorithm>
 #include "sensor.h"
+#include "intpts.h"
 using namespace std;
+void getintpts(int i_x1, int i_y1, int r_x2, int r_y2, int d);
+int RADIUS = 5;
+vector <intpts> interpts; //The location of the intersection
 int main() {
 	//Code Idea
 	/*
@@ -18,13 +22,13 @@ int main() {
 	 */
 	srand(time(NULL));
 	int sensornumber;
-	int RADIUS = 5;
 	int distance;
 	int count = 0;
-	bool contains;
 	vector <Sensor> sensor;  //Initial Sensors that are generated
 	vector <Sensor> withinRADIUS; //Sensors that are within a 5 distance
-	vector <Sensor> alwaysALIVE; //Sensors that will always be active
+	vector <Sensor> active; //Sensors that will always be active
+	//vector <intpts> interpts; //The location of the intersection
+	//                       points
 	cin >> sensornumber;
 
 	//Randomly add the sensors to random positions
@@ -32,7 +36,7 @@ int main() {
 		int rnd = rand() % (50 * 50);
 		int x = rnd % 50;
 		int y = rnd / 50;
-		sensor.push_back(Sensor(x,y,300));
+		sensor.push_back(Sensor(x,y,300,true));
 	}
 
 
@@ -45,29 +49,33 @@ int main() {
 			                 (sensor[i].ypos - sensor[j].ypos)));
 			if(distance <= RADIUS && distance != 0) {
 				if(find(withinRADIUS.begin(), withinRADIUS.end(), sensor[j])
-				   != withinRADIUS.end()){}
+				   != withinRADIUS.end()){} //If coordinate location is already in the vector it will not add it again.
 				else
 				{
 					//TODO: Remove sample output
 					withinRADIUS.push_back(sensor[j]);
-					count++;
-					cout << "INTERSECTION AT POINTS: " << endl;
+					getintpts(sensor[i].xpos, sensor[i].ypos, sensor[j].xpos,
+					          sensor[j].ypos, distance);
+					cout << "Points that cause Intersection: " << endl;
 					cout <<sensor[i];
 					cout <<sensor[j];
 					cout <<"with a distance of: "<<distance<<endl;
 					cout <<"count: "<<count<<endl;
+					cout <<"INTERSECTION LOCATIONS: "<<endl;
+					cout << interpts[count];
+					count++;
 				}
 			}
 		}
 	}
 
-	//Puts ones that have nothing close to it into always alive vector
+	//Puts ones that have nothing close to it into the alive vector
 	for(int i = 0; i < sensornumber; i++)
 	{
 		if(find(withinRADIUS.begin(), withinRADIUS.end(), sensor[i])
 		 != withinRADIUS.end()){}
 		else{
-			alwaysALIVE.push_back(sensor[i]);
+			active.push_back(sensor[i]);
 		}
 	}
 
@@ -86,20 +94,28 @@ int main() {
 
 	//Always alive
 	cout <<"-----ALWAYS ALIVE-----"<<endl;
-	for(int i = 0; i < alwaysALIVE.size(); i++){
-		cout <<alwaysALIVE[i];
+	for(int i = 0; i < active.size(); i++){
+		cout <<active[i];
 		cout <<"COUNT: "<<i<<endl;
 	}
 
-/*
-	//Testing basic math
+	return 0;
+}
+//TODO: Make sure the math is correct
+void getintpts(int i_x0, int i_y0, int i_x1, int i_y1, int d)
+{
+	int a, b, h, x3, y3, x4, y4, x2, y2;
+	x2 = i_x0+d;
+	y2 = i_y0 + d;
+	a = ((d*d)/(2*d));
+	b = a;
+	h = sqrt((RADIUS * RADIUS) - (a*a));
 
-	cout <<"Value of energy of sensor 1"<<endl;
-	cout <<sensor[1].energy<<endl;
-	cout <<"taking half of it"<<endl;
-	sensor[1].energy = sensor[1].energy/2; //Need to do this to get changes
-	// to stick
-	cout <<sensor[1].energy<<endl;
-*/
+	x3 = x2 + (((h*(i_y1 - i_y0)))/d);
+	x4 = x2 - (((h*(i_y1 - i_y0)))/d);
+	y3 = y2 + (((h*(i_x1 - i_x0)))/d);
+	y4 = y2 - (((h*(i_x1 - i_x0)))/d);
+
+	interpts.push_back(intpts(x3,y3,x4,y4));
 }
 
