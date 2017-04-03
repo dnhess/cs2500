@@ -4,26 +4,21 @@
 #include <algorithm>
 #include "sensor.h"
 #include "intpts.h"
+#include <fstream>
+
 using namespace std;
+
 void getintpts(int i_x1, int i_y1, int r_x2, int r_y2, int d);
+
 int RADIUS = 5;
 vector <intpts> interpts; //The location of the intersection
+
+
 int main() {
-	//Code Idea
-	/*
-	 * The idea of the code is to first generate a grid system that stores 1s
-	 * and 0s. The 1s will represent the actual sensor coordinates and the 0s
-	 * will represent the empty space (Note: The radius of coverage has not
-	 * been shown yet)
-	 *
-	 * To find a sensor the program will loop through the entire grid system
-	 * looking for the 1s. Once it finds a 1 it will check to see if there
-	 * are any 1s in a radius of 5
-	 */
 	srand(time(NULL));
 	int sensornumber;
 	int distance;
-	int count = 0;
+	//int count = 0;
 	vector <Sensor> sensor;  //Initial Sensors that are generated
 	vector <Sensor> withinRADIUS; //Sensors that are within a 5 distance
 	vector <Sensor> active; //Sensors that will always be active
@@ -56,6 +51,7 @@ int main() {
 					withinRADIUS.push_back(sensor[j]);
 					getintpts(sensor[i].xpos, sensor[i].ypos, sensor[j].xpos,
 					          sensor[j].ypos, distance);
+					/*
 					cout << "Points that cause Intersection: " << endl;
 					cout <<sensor[i];
 					cout <<sensor[j];
@@ -64,14 +60,15 @@ int main() {
 					cout <<"INTERSECTION LOCATIONS: "<<endl;
 					cout << interpts[count];
 					count++;
+					 */
 				}
 			}
 		}
 	}
 
+	//Note: Probably not needed
 	//Puts ones that have nothing close to it into the alive vector
-	for(int i = 0; i < sensornumber; i++)
-	{
+	for(int i = 0; i < sensornumber; i++) {
 		if(find(withinRADIUS.begin(), withinRADIUS.end(), sensor[i])
 		 != withinRADIUS.end()){}
 		else{
@@ -100,17 +97,29 @@ int main() {
 		cout <<"COUNT: "<<i<<endl;
 	}
 */
+
+	//This generates an excel file
+	//Note: This wipes the file every time it opens in
+	ofstream fout;
+	fout.open("test.csv"); //This file has to be created manually
+
+	fout <<"xpos, ypos, energy"<<endl;
+	for(int i = 0; i < sensornumber; i++)
+		fout <<sensor[i]<<endl;
+	fout.close();
+
+
 	return 0;
 }
 
-
+//Calculate the intersections caused by the sensors
 void getintpts(int i_x0, int i_y0, int i_x1, int i_y1, int d)
 {
 	int a, b, h, x3, y3, x4, y4, x2, y2;
 	a = ((d*d)/(2*d));
 	x2 = i_x0 + ((a*(i_x1-i_x0))/d);
 	y2 = i_y0 + ((a*(i_y1-i_y0))/d);
-	b = a;
+	//b = a;
 	h = sqrt((RADIUS * RADIUS) - (a*a));
 
 	x4 = x2 + (((h*(i_y1 - i_y0)))/d);

@@ -6,10 +6,7 @@
 using namespace std;
 //Outputting Sensor info
 ostream& operator <<(ostream& outs, const Sensor& sensor) {
-	outs << "xpos: " << sensor.xpos<<endl;
-	outs << "ypos: " << sensor.ypos<<endl;
-	outs << "energy: " << sensor.energy<<endl;
-	outs << "alive: " << sensor.alive<<endl;
+	outs << sensor.xpos <<"," << sensor.ypos <<","<< sensor.energy << endl;
 	return outs;
 }
 //Comparison of sensors
