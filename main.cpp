@@ -1,12 +1,8 @@
-#include <iostream>
-#include <vector>
 #include <math.h>
 #include <algorithm>
-#include "sensor.h"
 #include "intpts.h"
+#include "solutions.h"
 #include <fstream>
-
-using namespace std;
 
 void getintpts(int i_x1, int i_y1, int r_x2, int r_y2, int d);
 
@@ -23,7 +19,6 @@ int main() {
 	vector <Sensor> withinRADIUS; //Sensors that are within a 5 distance
 	vector <Sensor> active; //Sensors that will always be active
 
-
 	cin >> sensornumber;
 
 	//Randomly add the sensors to random positions
@@ -31,11 +26,13 @@ int main() {
 		int rnd = rand() % (50 * 50);
 		int x = rnd % 50;
 		int y = rnd / 50;
-		sensor.push_back(Sensor(x,y,300,true));
+		sensor.push_back(Sensor(x,y,300,true)); //xpos, ypos, energy, alive
+		// status
 	}
 
 
-	//Testing to find if sensors are in distance < RADIUS
+	//Testing to find if sensors are in distance < RADIUS and finding
+	// intersection points
 	for (int i = 0; i <= sensornumber; i++){
 		for (int j = 0; j <= sensornumber; j++) {
 			distance = sqrt(((sensor[i].xpos - sensor[j].xpos) *
@@ -99,9 +96,10 @@ int main() {
 */
 
 	//This generates an excel file
-	//Note: This wipes the file every time it opens in
+	//Note: This wipes the file every time it opens it again
 	ofstream fout;
-	fout.open("test.csv"); //This file has to be created manually
+	fout.open("test.csv"); //The file name and the .csv extension has to be
+	// made manually
 
 	fout <<"xpos, ypos, energy"<<endl;
 	for(int i = 0; i < sensornumber; i++)
