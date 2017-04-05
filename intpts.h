@@ -13,10 +13,14 @@ public:
 	int y_1;
 	int x_2;
 	int y_2;
-	int sen1;
-	int sen2;
+	int sen1x;
+	int sen1y;
+	int sen2x;
+	int sen2y;
 	intpts() {}
-	intpts(int x1, int y1, int x2, int y2, int sensor1, int sensor2 ) : x_1(x1), y_1(y1), x_2(x2), y_2(y2), sen1(sensor1), sen2(sensor2) {}
+	intpts(int x1, int y1, int x2, int y2, int sensor1x, int sensor1y, int
+	sensor2x, int sensor2y) :	x_1(x1), y_1(y1), x_2(x2), y_2(y2), sen1x
+			(sensor1x), sen1y(sensor1y), sen2x(sensor2x), sen2y(sensor2y){}
 	friend ostream& operator <<(ostream& outs, const intpts& i);
 };
 
