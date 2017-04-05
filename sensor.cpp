@@ -19,7 +19,7 @@ Sensor Sensor ::operator-(Sensor t) {
 	tmp.xpos = xpos - t.xpos;
 	tmp.ypos = ypos - t.ypos;
 	tmp.energy = t.energy;
-	tmp.alive = t.alive;
+	tmp.active = t.active;
 	return tmp;
 }
 

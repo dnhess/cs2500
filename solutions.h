@@ -12,6 +12,6 @@ using namespace std;
 
 //Sensor ss;
 //class intpts;
-int alivesensors(const vector<Sensor> &s, int sensornumber);
+int activesensors(const vector<Sensor> &s, int sensornumber);
 
 #endif //CS2500_SOLUTIONS_H

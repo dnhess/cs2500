@@ -4,7 +4,8 @@
 #include "solutions.h"
 #include <fstream>
 
-void getintpts(int i_x1, int i_y1, int r_x2, int r_y2, int d);
+void getintpts(int i_x1, int i_y1, int r_x2, int r_y2, int d, int sen1, int
+sen2);
 
 int RADIUS = 5;
 vector <intpts> interpts; //The location of the intersection
@@ -47,7 +48,7 @@ int main() {
 					//TODO: Remove sample output
 					withinRADIUS.push_back(sensor[j]);
 					getintpts(sensor[i].xpos, sensor[i].ypos, sensor[j].xpos,
-					          sensor[j].ypos, distance);
+					          sensor[j].ypos, distance, i, j);
 					/*
 					cout << "Points that cause Intersection: " << endl;
 					cout <<sensor[i];
@@ -106,22 +107,27 @@ int main() {
 		fout <<sensor[i]<<endl;
 	fout.close();
 
-	cout <<"Percent of alive sensors"<<endl;
+	fout.open("allactive");
 	int time = 300;
+	fout <<"Round, Percent"<<endl;
 	while(time != 0)
 	{
 		for(int i = 0; i < sensornumber; i++)
 		{
 			sensor[i].energy--;
+			if(sensor[i].energy == 0)
+				sensor[i].active = false;
 		}
-		cout<<alivesensors(sensor,sensornumber)<<endl;
+		fout<<time<<","<< activesensors(sensor,sensornumber)<<endl;
 		time--;
 	}
+	fout.close();
+
 	return 0;
 }
 
 //Calculate the intersections caused by the sensors
-void getintpts(int i_x0, int i_y0, int i_x1, int i_y1, int d)
+void getintpts(int i_x0, int i_y0, int i_x1, int i_y1, int d, int sen1, int sen2)
 {
 	int a, b, h, x3, y3, x4, y4, x2, y2;
 	a = ((d*d)/(2*d));
@@ -135,6 +141,6 @@ void getintpts(int i_x0, int i_y0, int i_x1, int i_y1, int d)
 	y3 = y2 + (((h*(i_x1 - i_x0)))/d);
 	y4 = y2 - (((h*(i_x1 - i_x0)))/d);
 
-	interpts.push_back(intpts(x3,y3,x4,y4));
+	interpts.push_back(intpts(x3,y3,x4,y4,sen1, sen2));
 }
 

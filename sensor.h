@@ -14,9 +14,9 @@ public:
 	int xpos;
 	int ypos;
 	int energy;
-	bool alive;
+	bool active;
 	Sensor() {}
-	Sensor(int x, int y, int e, bool a) : xpos(x), ypos(y), energy(e), alive
+	Sensor(int x, int y, int e, bool a) : xpos(x), ypos(y), energy(e), active
 			(a) {}
 	//Allows for us to see the sensor information
 	friend ostream& operator <<(ostream& outs, const Sensor& sensor);

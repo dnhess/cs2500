@@ -13,9 +13,10 @@ public:
 	int y_1;
 	int x_2;
 	int y_2;
+	int sen1;
+	int sen2;
 	intpts() {}
-	intpts(int x1, int y1, int x2, int y2 ) : x_1(x1), y_1(y1), x_2(x2),
-	                                          y_2(y2) {}
+	intpts(int x1, int y1, int x2, int y2, int sensor1, int sensor2 ) : x_1(x1), y_1(y1), x_2(x2), y_2(y2), sen1(sensor1), sen2(sensor2) {}
 	friend ostream& operator <<(ostream& outs, const intpts& i);
 };
 
