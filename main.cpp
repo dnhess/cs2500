@@ -97,15 +97,14 @@ int main() {
 	//This generates an excel file
 	//Note: This wipes the file every time it opens it again
 	ofstream fout;
-	fout.open("test.csv"); //The file name and the .csv extension has to be
-	// made manually
-
+	fout.open("../test.csv");
 	fout <<"xpos, ypos, energy"<<endl;
-	for(int i = 0; i < sensornumber; i++)
-		fout <<sensor[i]<<endl;
+	for(int i = 0; i < sensornumber; i++) {
+		fout << sensor[i] << endl;
+	}
 	fout.close();
 
-	fout.open("allactive");
+	fout.open("../allactive.csv");
 	int time = 300;
 	fout <<"Round, Percent"<<endl;
 	while(time != 0)
