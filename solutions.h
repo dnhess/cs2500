@@ -10,9 +10,8 @@
 #include <vector>
 using namespace std;
 
-class sensor;
-class intpts;
-//All Active
-int allactive(const vector<Sensor> &aa);
+//Sensor ss;
+//class intpts;
+int alivesensors(const vector<Sensor> &s, int sensornumber);
 
 #endif //CS2500_SOLUTIONS_H

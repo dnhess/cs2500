@@ -3,7 +3,18 @@
 //
 
 #include "solutions.h"
-int allactive(const vector<Sensor> &aa)
-{
-	while()
+
+int alivesensors(const vector<Sensor> &s, int sensornumber) {
+	float percent;
+	int count = 0;
+	for(int i = 0; i < sensornumber; i++)
+	{
+		if(s[i].alive)
+		{
+			count++;
+		}
+	}
+	cout <<"count value: "<<count<<endl;
+	percent = count/sensornumber;
+	return percent;
 }

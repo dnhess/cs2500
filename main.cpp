@@ -106,7 +106,17 @@ int main() {
 		fout <<sensor[i]<<endl;
 	fout.close();
 
-
+	cout <<"Percent of alive sensors"<<endl;
+	int time = 300;
+	while(time != 0)
+	{
+		for(int i = 0; i < sensornumber; i++)
+		{
+			sensor[i].energy--;
+		}
+		cout<<alivesensors(sensor,sensornumber)<<endl;
+		time--;
+	}
 	return 0;
 }
 
