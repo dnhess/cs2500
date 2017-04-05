@@ -31,3 +31,16 @@ float alivesensors(const vector<Sensor> &s, int sensornumber) {
 	percent = (static_cast<float>(sensornumber)-dead)/static_cast<float>(sensornumber);
 	return percent;
 }
+
+float resenergy(const vector<Sensor> &s, int sensornumber) {
+	float total = 0;
+	for(int i = 0; i < sensornumber; i++)
+	{
+		if(!s[i].active){
+			total += s[i].energy;
+		}
+	}
+
+	return total;
+}
+

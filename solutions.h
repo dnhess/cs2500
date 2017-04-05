@@ -14,5 +14,6 @@ using namespace std;
 //class intpts;
 float activesensors(const vector<Sensor> &s, int sensornumber);
 float alivesensors(const vector<Sensor> &s, int sensornumber);
+float resenergy(const vector<Sensor> &s, int sensornumber);
 
 #endif //CS2500_SOLUTIONS_H
