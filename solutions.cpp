@@ -4,9 +4,9 @@
 
 #include "solutions.h"
 
-int activesensors(const vector<Sensor> &s, int sensornumber) {
+float activesensors(const vector<Sensor> &s, int sensornumber) {
 	float percent;
-	int count = 0;
+	float count = 0;
 	for(int i = 0; i < sensornumber; i++)
 	{
 		if(s[i].active)
@@ -14,7 +14,20 @@ int activesensors(const vector<Sensor> &s, int sensornumber) {
 			count++;
 		}
 	}
-	//cout <<"count value: "<<count<<endl;
-	percent = count/sensornumber;
+	percent = (count/static_cast<float>(sensornumber));
+	return percent;
+}
+
+float alivesensors(const vector<Sensor> &s, int sensornumber) {
+	float percent;
+	float dead = 0;
+	for(int i = 0; i < sensornumber; i++)
+	{
+		if(s[i].energy <= 0)
+		{
+			dead++;
+		}
+	}
+	percent = (static_cast<float>(sensornumber)-dead)/static_cast<float>(sensornumber);
 	return percent;
 }

@@ -12,6 +12,7 @@ using namespace std;
 
 //Sensor ss;
 //class intpts;
-int activesensors(const vector<Sensor> &s, int sensornumber);
+float activesensors(const vector<Sensor> &s, int sensornumber);
+float alivesensors(const vector<Sensor> &s, int sensornumber);
 
 #endif //CS2500_SOLUTIONS_H

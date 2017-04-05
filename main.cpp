@@ -13,6 +13,7 @@ int main() {
 	srand(time(NULL));
 	int sensornumber;
 	int distance;
+	int time = 300;
 	//int count = 0;
 	vector <Sensor> sensor;  //Initial Sensors that are generated
 	vector <Sensor> withinRADIUS; //Sensors that are within a 5 distance
@@ -97,6 +98,7 @@ int main() {
 	//This generates an excel file
 	//Note: This wipes the file every time it opens it again
 	ofstream fout;
+	//NOTE: Will generate file 1 directory above current director
 	fout.open("../test.csv");
 	fout <<"xpos, ypos, energy"<<endl;
 	for(int i = 0; i < sensornumber; i++) {
@@ -104,17 +106,54 @@ int main() {
 	}
 	fout.close();
 
-	fout.open("../allactive.csv");
-	int time = 300;
-	fout <<"Round, Percent"<<endl;
-	while(time != 0)
+	//NOTE: Will generate file 1 directory above current directory
+	//========ALIVE SENSORS=====
+	fout.open("../allalive.csv");
+	fout <<"Round, Percent Alive"<<endl;
+	while(time !=0)
 	{
+		sensor[30].energy = sensor[30].energy - 20;
+		sensor[40].energy = sensor[40].energy - 50;
 		for(int i = 0; i < sensornumber; i++)
 		{
 			sensor[i].energy--;
-			if(sensor[i].energy == 0)
+			if(sensor[i].energy <= 0)
 				sensor[i].active = false;
 		}
+		//Outputs the current time and how many sensors are active at the
+		//current time
+		fout<<time<<","<< alivesensors(sensor,sensornumber)<<endl;
+		time--;
+	}
+	fout.close();
+	time = 300;
+
+
+	//NOTE: This is only used to reset energy and status of sensors
+	//this will not be needed once everything is in one while loop
+	for(int i = 0; i < sensornumber; i++)
+	{
+		sensor[i].active = true;
+		sensor[i].energy = 300;
+	}
+
+	//NOTE: Will generate file 1 directory above current directory
+	//========ACTIVE SENSORS=====
+	fout.open("../allactive.csv");
+	fout <<"Round, Percent Active"<<endl;
+
+	while(time != 0)
+	{
+		sensor[30].energy = sensor[30].energy - 300;
+		sensor[33].energy = sensor[33].energy - 50;
+		for(int i = 0; i < sensornumber; i++)
+		{
+			sensor[i].energy--;
+			if(sensor[i].energy <= 0)
+				sensor[i].active = false;
+		}
+		//Outputs the current time and how many sensors are active at the
+		//current time
 		fout<<time<<","<< activesensors(sensor,sensornumber)<<endl;
 		time--;
 	}
