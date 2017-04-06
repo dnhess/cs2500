@@ -44,3 +44,26 @@ float resenergy(const vector<Sensor> &s, int sensornumber) {
 	return total;
 }
 
+//Should Be Fixed!
+float percentcovg(const vector<Sensor> &s, int sensornumber) {
+	float covered = 0;
+	for(int i = 0; i < (sensornumber); i++) {
+		int rnd = rand() % (50 * 50);
+		int x = rnd % 50;
+		int y = rnd / 50;
+		for(int j = 0; j < sensornumber; j++)
+		{
+			int testx = abs(s[j].xpos - x);
+			int testy = abs(s[j].ypos - y);
+			//cout <<testx<<","<<testy<<endl;
+			if(testx < 5 && testy < 5 && s[j].active)
+			{
+				covered++;
+				j = sensornumber - 1;
+			}
+		}
+	}
+	return covered/sensornumber;
+}
+
+

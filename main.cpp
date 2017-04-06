@@ -17,6 +17,7 @@ int main() {
 	ofstream fallalive;
 	ofstream fallactive;
 	ofstream fresenergy;
+	ofstream fperccov;
 	int time = 300;
 	//int count = 0;
 	vector <Sensor> sensor;  //Initial Sensors that are generated
@@ -117,19 +118,33 @@ int main() {
 	fallactive <<"Round, Percent Active"<<endl;
 	fresenergy.open("../resenergy.csv");
 	fresenergy <<"Round, Residual Energy"<<endl;
+	fperccov.open("../perccov.csv");
+	fperccov <<"Round, Percentage Covered"<<endl;
 	while(time !=0)
 	{
+		sensor[30].active = false;
+		sensor[33].active = false;
+		sensor[28].active = false;
+		sensor[42].active = false;
+		sensor[20].active = false;
+		sensor[10].active = false;
+		sensor[31].active = false;
+		sensor[35].active = false;
+		sensor[29].active = false;
+		sensor[43].active = false;
+		sensor[22].active = false;
+		sensor[19].active = false;
 		for(int i = 0; i < sensornumber; i++)
 		{
-			sensor[i].energy--;
+			if(sensor[i].active == true)
+				sensor[i].energy--;
 			if(sensor[i].energy <= 0)
 				sensor[i].active = false;
 		}
-		//Outputs the current time and how many sensors are active at the
-		//current time
 		fallalive<<time<<","<< alivesensors(sensor,sensornumber)<<endl;
 		fallactive<<time<<","<< activesensors(sensor,sensornumber)<<endl;
 		fresenergy<<time<<","<< resenergy(sensor,sensornumber)<<endl;
+		fperccov<<time<<","<<percentcovg(sensor, sensornumber)<<endl;
 		time--;
 	}
 	fallalive.close();
@@ -142,11 +157,10 @@ int main() {
 //Calculate the intersections caused by the sensors
 void getintpts(int i_x0, int i_y0, int i_x1, int i_y1, int d)
 {
-	int a, b, h, x3, y3, x4, y4, x2, y2;
+	int a, h, x3, y3, x4, y4, x2, y2;
 	a = ((d*d)/(2*d));
 	x2 = i_x0 + ((a*(i_x1-i_x0))/d);
 	y2 = i_y0 + ((a*(i_y1-i_y0))/d);
-	//b = a;
 	h = sqrt((RADIUS * RADIUS) - (a*a));
 
 	x4 = x2 + (((h*(i_y1 - i_y0)))/d);

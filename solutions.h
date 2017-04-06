@@ -7,6 +7,7 @@
 
 #include <iostream>
 #include "sensor.h"
+#include "intpts.h"
 #include <vector>
 using namespace std;
 
@@ -15,5 +16,5 @@ using namespace std;
 float activesensors(const vector<Sensor> &s, int sensornumber);
 float alivesensors(const vector<Sensor> &s, int sensornumber);
 float resenergy(const vector<Sensor> &s, int sensornumber);
-
+float percentcovg(const vector<Sensor> &s, int sensornumber);
 #endif //CS2500_SOLUTIONS_H
