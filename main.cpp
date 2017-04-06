@@ -18,7 +18,7 @@ int main() {
 	ofstream fallactive;
 	ofstream fresenergy;
 	ofstream fperccov;
-	int time = 300;
+	int time = 0;
 	//int count = 0;
 	vector <Sensor> sensor;  //Initial Sensors that are generated
 	vector <Sensor> withinRADIUS; //Sensors that are within a 5 distance
@@ -120,8 +120,12 @@ int main() {
 	fresenergy <<"Round, Residual Energy"<<endl;
 	fperccov.open("../perccov.csv");
 	fperccov <<"Round, Percentage Covered"<<endl;
-	while(time !=0)
+
+	//Just running for 300 rounds right now. Need to adjust to percent
+	// coverage >= 50 later?
+	while(time !=300)
 	{
+		/*
 		sensor[30].active = false;
 		sensor[33].active = false;
 		sensor[28].active = false;
@@ -134,6 +138,14 @@ int main() {
 		sensor[43].active = false;
 		sensor[22].active = false;
 		sensor[19].active = false;
+		 */
+
+
+		//In theory the algorithm functions can be placed in here and be
+		// forced every couple of rounds to adjust the sensors.
+
+
+		//Reduces energy of active sensors by 1 each round
 		for(int i = 0; i < sensornumber; i++)
 		{
 			if(sensor[i].active == true)
@@ -141,15 +153,18 @@ int main() {
 			if(sensor[i].energy <= 0)
 				sensor[i].active = false;
 		}
+		//Outputs the data
 		fallalive<<time<<","<< alivesensors(sensor,sensornumber)<<endl;
 		fallactive<<time<<","<< activesensors(sensor,sensornumber)<<endl;
 		fresenergy<<time<<","<< resenergy(sensor,sensornumber)<<endl;
 		fperccov<<time<<","<<percentcovg(sensor, sensornumber)<<endl;
-		time--;
+		time++;
 	}
+	//Closing files
 	fallalive.close();
 	fallactive.close();
 	fresenergy.close();
+	fperccov.close();
 
 	return 0;
 }
