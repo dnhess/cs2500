@@ -17,4 +17,8 @@ float activesensors(const vector<Sensor> &s, int sensornumber);
 float alivesensors(const vector<Sensor> &s, int sensornumber);
 float resenergy(const vector<Sensor> &s, int sensornumber);
 float percentcovg(const vector<Sensor> &s, int sensornumber);
+
+//Bottom Up Approach
+void bottomup(const vector<Sensor> &s, const vector<intpts> &ip, int
+sensornumber);
 #endif //CS2500_SOLUTIONS_H

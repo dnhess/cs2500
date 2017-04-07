@@ -156,7 +156,7 @@ int main() {
 		fallalive<<time<<","<< alivesensors(sensor,sensornumber)<<endl;
 		fallactive<<time<<","<< activesensors(sensor,sensornumber)<<endl;
 		fresenergy<<time<<","<< resenergy(sensor,sensornumber)<<endl;
-		fperccov<<time<<","<<percentcovg(sensor, sensornumber)<<endl;
+		fperccov<<time<<","<<percentcovg(sensor,sensornumber)<<endl;
 		time++;
 	}while(percentcovg(sensor, sensornumber) >= .50);
 	//Closing files
@@ -184,4 +184,3 @@ void getintpts(int i_x0, int i_y0, int i_x1, int i_y1, int d)
 
 	interpts.push_back(intpts(x3,y3,x4,y4,i_x0, i_y0, i_x1, i_y1));
 }
-

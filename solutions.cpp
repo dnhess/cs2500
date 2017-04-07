@@ -70,4 +70,16 @@ float percentcovg(const vector<Sensor> &s, int sensornumber) {
 	return covered/sensornumber;
 }
 
+//Bottom Up Approach
+void
+bottomup(const vector<Sensor> &s, const vector<intpts> &ip, int sensornumber) {
+	for(int i = 0; i < ip.size(); i++)
+	{
+
+	}
+}
+
+
+
+
 
