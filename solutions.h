@@ -19,7 +19,7 @@ float resenergy(const vector<Sensor> &s, int sensornumber);
 float percentcovg(const vector<Sensor> &s, int sensornumber);
 
 //Bottom Up Approach
-void bottomup(const vector<Sensor> &s, const vector<intpts> &ip, const vector<Sensor> &a, int
+void bottomup(vector<Sensor> &s, const vector<intpts> &ip, const vector<Sensor> &a, int
 sensornumber);
 
 bool foundintcp(int pos, const vector<intpts> &ip, const vector<Sensor> &s, int i);

@@ -143,7 +143,11 @@ int main() {
 		//In theory the algorithm functions can be placed in here and be
 		// forced every couple of rounds to adjust the sensors.
 
-
+		if(time % 5 == 0)
+		{
+			bottomup(sensor, interpts, active, sensornumber);
+			cout <<"runs this"<<endl;
+		}
 		//Reduces energy of active sensors by 1 each round
 		for(int i = 0; i < sensornumber; i++)
 		{

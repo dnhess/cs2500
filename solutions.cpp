@@ -71,7 +71,7 @@ float percentcovg(const vector<Sensor> &s, int sensornumber) {
 }
 
 //Bottom Up Approach
-void bottomup(const vector <Sensor> &s, const vector <intpts> &ip,
+void bottomup(vector <Sensor> &s, const vector <intpts> &ip,
               const vector <Sensor> &a, int sensornumber) {
 	int temp_pos;
 	for(int i = 0; i < ip.size(); i++)
@@ -90,13 +90,13 @@ void bottomup(const vector <Sensor> &s, const vector <intpts> &ip,
 					s[temp_pos].active = true;
 				} else{
 					s[temp_pos].active = true;
-					temp_pos = ip[i].s1;
+					temp_pos = ip[i].s2;
 					s[temp_pos].active = false;
 				}
 			}
 			else
 			{
-				s[temp_pos].active = true;
+				s[ip[i].s2].active = true;
 				temp_pos = ip[i].s1;
 				s[temp_pos].active = false;
 			}
@@ -122,7 +122,7 @@ bool foundintcp(int pos, const vector<intpts> &ip, const vector<Sensor> &s,
 		{
 			return true;
 		} else{
-
+			false;
 		}
 	}
 }
