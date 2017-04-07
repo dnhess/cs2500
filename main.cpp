@@ -15,11 +15,12 @@ int main() {
 	int sensornumber;
 	int distance;
 	ofstream ftest;
-	ofstream fallalive;
+//	ofstream fallalive;
 	ofstream fallactive;
 	ofstream fresenergy;
 	ofstream fperccov;
 	int time = 0;
+	int time1 = 0;
 	//int count = 0;
 	vector <Sensor> sensor;  //Initial Sensors that are generated
 	vector <Sensor> withinRADIUS; //Sensors that are within a 5 distance
@@ -111,21 +112,19 @@ int main() {
 	}
 	ftest.close();
 
+
+	cout<<"Size of active"<<active.size()<<endl;
+
 	//NOTE: Will generate file 1 directory above current directory
 	//======TESTS=====
-	fallalive.open("../allalive.csv");
-	fallalive <<"Round, Percent Alive"<<endl;
+//	fallalive.open("../allalive.csv");
+//	fallalive <<"Round, Percent Alive"<<endl;
 	fallactive.open("../allactive.csv");
 	fallactive <<"Round, Percent Active"<<endl;
 	fresenergy.open("../resenergy.csv");
 	fresenergy <<"Round, Residual Energy"<<endl;
 	fperccov.open("../perccov.csv");
 	fperccov <<"Round, Percentage Covered"<<endl;
-
-	sensor[1].xpos = 0;
-	sensor[1].ypos = 0;
-	sensor[2].xpos = 5;
-	sensor[2].ypos = 5;
 	do
 	{
 		/*
@@ -146,12 +145,8 @@ int main() {
 
 		//In theory the algorithm functions can be placed in here and be
 		// forced every couple of rounds to adjust the sensors.
-
-		if(time % 5 == 0)
-		{
-			bottomup(sensor, interpts, active, sensornumber);
-			cout <<"runs this"<<endl;
-		}
+			bottomup(sensor, interpts, active, sensornumber, time1);
+			//cout <<"runs this"<<endl;
 		//Reduces energy of active sensors by 1 each round
 		for(int i = 0; i < sensornumber; i++)
 		{
@@ -162,14 +157,14 @@ int main() {
 			}
 		}
 		//Outputs the data
-		fallalive<<time<<","<< alivesensors(sensor,sensornumber)<<endl;
+		//fallalive<<time<<","<< alivesensors(sensor,sensornumber)<<endl;
 		fallactive<<time<<","<< activesensors(sensor,sensornumber)<<endl;
 		fresenergy<<time<<","<< resenergy(sensor,sensornumber)<<endl;
 		fperccov<<time<<","<<percentcovg(sensor,sensornumber)<<endl;
 		time++;
-	}while(percentcovg(sensor, sensornumber) >= .50);
+	}while(time < 1000);
 	//Closing files
-	fallalive.close();
+	//fallalive.close();
 	fallactive.close();
 	fresenergy.close();
 	fperccov.close();
