@@ -85,9 +85,22 @@ void bottomup(const vector <Sensor> &s, const vector <intpts> &ip,
 				temp_pos = ip[i].s2;
 				if(foundintcp(temp_pos, ip, s, i))
 				{
-
+					s[temp_pos].active = false;
+					temp_pos = ip[i].s1;
+					s[temp_pos].active = true;
+				} else{
+					s[temp_pos].active = true;
+					temp_pos = ip[i].s1;
+					s[temp_pos].active = false;
 				}
 			}
+			else
+			{
+				s[temp_pos].active = true;
+				temp_pos = ip[i].s1;
+				s[temp_pos].active = false;
+			}
+
 		}
 	}
 }
