@@ -32,7 +32,7 @@ int main() {
 		int rnd = rand() % (50 * 50);
 		int x = rnd % 50;
 		int y = rnd / 50;
-		sensor.push_back(Sensor(x,y,300,true)); //xpos, ypos, energy, alive
+		sensor.push_back(Sensor(x,y,300,false)); //xpos, ypos, energy, alive
 		// status
 	}
 
@@ -122,6 +122,10 @@ int main() {
 	fperccov.open("../perccov.csv");
 	fperccov <<"Round, Percentage Covered"<<endl;
 
+	sensor[1].xpos = 0;
+	sensor[1].ypos = 0;
+	sensor[2].xpos = 5;
+	sensor[2].ypos = 5;
 	do
 	{
 		/*
