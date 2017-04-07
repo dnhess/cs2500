@@ -3,7 +3,6 @@
 //
 
 #include "solutions.h"
-#include <fstream>
 
 //Gets how many active sensors exists at the given round
 float activesensors(const vector<Sensor> &s, int sensornumber) {
@@ -74,12 +73,12 @@ float percentcovg(const vector<Sensor> &s, int sensornumber) {
 //Bottom Up Approach
 
 //TODO: This is not working
+//TODO: 100% of them are alive until round 300
 void bottomup(vector <Sensor> &s, const vector <intpts> &ip,
               vector <Sensor> &a, int sensornumber, int maxactive) {
 	int temp_pos;
 	int counter = 0;
 	//cout <<"IP SIZE: "<<ip.size()<<endl;
-	ofstream fallalive;
 	for(int i = 0; i < ip.size(); i++)
 	{
 		temp_pos = ip[i].s1;
@@ -112,15 +111,11 @@ void bottomup(vector <Sensor> &s, const vector <intpts> &ip,
 			}
 
 		}
-		fallalive.open("../allalive.csv");
-		fallalive <<"Round, Active"<<endl;
-		//cout<<i<<","<< s[i].active<<endl;
 	}
 	for(int i = 0; i < sensornumber; i++) {
 		if (s[i].active == true)
 			counter++;
 	}
-	fallalive.close();
 	if(counter >= maxactive)
 		maxactive = counter;
 	//cout <<"Number active:"<<counter<<endl;
@@ -151,14 +146,15 @@ bool foundintcp(int pos, const vector<intpts> &ip, const vector<Sensor> &s,
 	}
 }
 
-void testbottomup(vector<Sensor> &s, const vector<intpts> &ip, int snum) {
+void testbottomup(vector<Sensor> &s, const vector<intpts> &ip, int snum,
+                  vector<Sensor> &a) {
 
-	for(int i = 0; i < snum; i++)
-	{
-		if(s[i].active && s[i].energy > 0){
-
-		}
-	}
+//	for(int i = 0; i < snum; i++)
+//	{
+//		if(s[i].active && s[i].energy > 0){
+//			if(percentcovg(s, snum))
+//		}
+//	}
 }
 
 

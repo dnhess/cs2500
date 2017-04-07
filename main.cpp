@@ -4,6 +4,7 @@
 #include "solutions.h"
 #include <fstream>
 
+//HERE
 void getintpts(int i_x1, int i_y1, int r_x2, int r_y2, int d, int pos1, int
 pos2);
 int RADIUS = 5;
@@ -15,7 +16,7 @@ int main() {
 	int sensornumber;
 	int distance;
 	ofstream ftest;
-//	ofstream fallalive;
+	ofstream fallalive;
 	ofstream fallactive;
 	ofstream fresenergy;
 	ofstream fperccov;
@@ -33,7 +34,7 @@ int main() {
 		int rnd = rand() % (50 * 50);
 		int x = rnd % 50;
 		int y = rnd / 50;
-		sensor.push_back(Sensor(x,y,300,true)); //xpos, ypos, energy, alive
+		sensor.push_back(Sensor(x,y,300,false)); //xpos, ypos, energy, alive
 		// status
 	}
 
@@ -117,8 +118,8 @@ int main() {
 
 	//NOTE: Will generate file 1 directory above current directory
 	//======TESTS=====
-//	fallalive.open("../allalive.csv");
-//	fallalive <<"Round, Percent Alive"<<endl;
+	fallalive.open("../allalive.csv");
+	fallalive <<"Round, Percent Alive"<<endl;
 	fallactive.open("../allactive.csv");
 	fallactive <<"Round, Percent Active"<<endl;
 	fresenergy.open("../resenergy.csv");
@@ -157,14 +158,14 @@ int main() {
 				sensor[i].active = false;
 		}
 		//Outputs the data
-		//fallalive<<time<<","<< alivesensors(sensor,sensornumber)<<endl;
+		fallalive<<time<<","<< alivesensors(sensor,sensornumber)<<endl;
 		fallactive<<time<<","<< activesensors(sensor,sensornumber)<<endl;
 		fresenergy<<time<<","<< resenergy(sensor,sensornumber)<<endl;
 		fperccov<<time<<","<<percentcovg(sensor,sensornumber)<<endl;
 		time++;
 	}while(time < 1000);
 	//Closing files
-	//fallalive.close();
+	fallalive.close();
 	fallactive.close();
 	fresenergy.close();
 	fperccov.close();
