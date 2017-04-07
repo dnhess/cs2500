@@ -121,8 +121,6 @@ int main() {
 	fperccov.open("../perccov.csv");
 	fperccov <<"Round, Percentage Covered"<<endl;
 
-	//Just running for 300 rounds right now. Need to adjust to percent
-	// coverage >= 50 later?
 	do
 	{
 		/*
@@ -148,10 +146,11 @@ int main() {
 		//Reduces energy of active sensors by 1 each round
 		for(int i = 0; i < sensornumber; i++)
 		{
-			if(sensor[i].active == true)
+			if(sensor[i].active) {
 				sensor[i].energy--;
-			if(sensor[i].energy <= 0)
-				sensor[i].active = false;
+				if (sensor[i].energy <= 0)
+					sensor[i].active = false;
+			}
 		}
 		//Outputs the data
 		fallalive<<time<<","<< alivesensors(sensor,sensornumber)<<endl;

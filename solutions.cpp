@@ -4,6 +4,7 @@
 
 #include "solutions.h"
 
+//Gets how many active sensors exists at the given round
 float activesensors(const vector<Sensor> &s, int sensornumber) {
 	float percent;
 	float count = 0;
@@ -18,6 +19,7 @@ float activesensors(const vector<Sensor> &s, int sensornumber) {
 	return percent;
 }
 
+//Gets how many sensors are live at the given round
 float alivesensors(const vector<Sensor> &s, int sensornumber) {
 	float percent;
 	float dead = 0;
@@ -32,6 +34,8 @@ float alivesensors(const vector<Sensor> &s, int sensornumber) {
 	return percent;
 }
 
+//Gets the residual energy at a given round (energy of non-active, alive
+// sensors)
 float resenergy(const vector<Sensor> &s, int sensornumber) {
 	float total = 0;
 	for(int i = 0; i < sensornumber; i++)
@@ -44,7 +48,7 @@ float resenergy(const vector<Sensor> &s, int sensornumber) {
 	return total;
 }
 
-//Should Be Fixed!
+//Gets the coverage range of sensors at a given round
 float percentcovg(const vector<Sensor> &s, int sensornumber) {
 	float covered = 0;
 	for(int i = 0; i < (sensornumber); i++) {
