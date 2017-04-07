@@ -123,7 +123,7 @@ int main() {
 
 	//Just running for 300 rounds right now. Need to adjust to percent
 	// coverage >= 50 later?
-	while(time !=300)
+	do
 	{
 		/*
 		sensor[30].active = false;
@@ -159,7 +159,7 @@ int main() {
 		fresenergy<<time<<","<< resenergy(sensor,sensornumber)<<endl;
 		fperccov<<time<<","<<percentcovg(sensor, sensornumber)<<endl;
 		time++;
-	}
+	}while(percentcovg(sensor, sensornumber) >= .50);
 	//Closing files
 	fallalive.close();
 	fallactive.close();
