@@ -73,9 +73,31 @@ float percentcovg(const vector<Sensor> &s, int sensornumber) {
 //Bottom Up Approach
 void
 bottomup(const vector<Sensor> &s, const vector<intpts> &ip, int sensornumber) {
+	int temp_pos;
+	bool aip;
+	int xdis1;
+	int ydis1;
+	int xdis2;
+	int ydis2;
 	for(int i = 0; i < ip.size(); i++)
 	{
+		temp_pos = ip[i].s1;
+		if(s[temp_pos].active){}
+		else
+		{
+			for(int j = 0; j < ip.size(); i++)
+			{
+				xdis1 = abs(s[temp_pos].xpos - ip[j].x_1);
+				ydis1 = abs(s[temp_pos].ypos - ip[j].y_1);
+				xdis2 = abs(s[temp_pos].xpos - ip[j].x_2);
+				ydis2 = abs(s[temp_pos].ypos - ip[j].y_2);
+				if(((xdis1 == 5 && ydis1 == 5) || (xdis2 == 5 && ydis2 == 5))
+				   && i != j && )
+				{
 
+				}
+			}
+		}
 	}
 }
 
