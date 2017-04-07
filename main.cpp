@@ -33,7 +33,7 @@ int main() {
 		int rnd = rand() % (50 * 50);
 		int x = rnd % 50;
 		int y = rnd / 50;
-		sensor.push_back(Sensor(x,y,300,false)); //xpos, ypos, energy, alive
+		sensor.push_back(Sensor(x,y,300,true)); //xpos, ypos, energy, alive
 		// status
 	}
 
@@ -152,9 +152,9 @@ int main() {
 		{
 			if(sensor[i].active) {
 				sensor[i].energy--;
-				if (sensor[i].energy <= 0)
-					sensor[i].active = false;
 			}
+			if (sensor[i].energy <= 0)
+				sensor[i].active = false;
 		}
 		//Outputs the data
 		//fallalive<<time<<","<< alivesensors(sensor,sensornumber)<<endl;

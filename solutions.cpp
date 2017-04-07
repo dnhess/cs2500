@@ -72,6 +72,8 @@ float percentcovg(const vector<Sensor> &s, int sensornumber) {
 }
 
 //Bottom Up Approach
+
+//TODO: This is not working
 void bottomup(vector <Sensor> &s, const vector <intpts> &ip,
               vector <Sensor> &a, int sensornumber, int maxactive) {
 	int temp_pos;
@@ -103,8 +105,9 @@ void bottomup(vector <Sensor> &s, const vector <intpts> &ip,
 			else
 			{
 				//cout <<"how about here?"<<endl;
-				s[ip[i].s1].active = true;
-				temp_pos = ip[i].s2;
+				s[ip[i].s2].active = true;
+				//cout <<"STATUS:"<<i<<","<<s[i].active<<endl;
+				temp_pos = ip[i].s1;
 				s[temp_pos].active = false;
 			}
 
@@ -112,7 +115,9 @@ void bottomup(vector <Sensor> &s, const vector <intpts> &ip,
 		fallalive.open("../allalive.csv");
 		fallalive <<"Round, Active"<<endl;
 		//cout<<i<<","<< s[i].active<<endl;
-		if(s[i].active == true)
+	}
+	for(int i = 0; i < sensornumber; i++) {
+		if (s[i].active == true)
 			counter++;
 	}
 	fallalive.close();
@@ -145,6 +150,17 @@ bool foundintcp(int pos, const vector<intpts> &ip, const vector<Sensor> &s,
 		}
 	}
 }
+
+void testbottomup(vector<Sensor> &s, const vector<intpts> &ip, int snum) {
+
+	for(int i = 0; i < snum; i++)
+	{
+		if(s[i].active && s[i].energy > 0){
+
+		}
+	}
+}
+
 
 
 
