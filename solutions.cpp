@@ -92,7 +92,7 @@ bottomup(const vector<Sensor> &s, const vector<intpts> &ip, int sensornumber) {
 				xdis2 = abs(s[temp_pos].xpos - ip[j].x_2);
 				ydis2 = abs(s[temp_pos].ypos - ip[j].y_2);
 				if(((xdis1 == 5 && ydis1 == 5) || (xdis2 == 5 && ydis2 == 5))
-				   && i != j && )
+				   && i != j && s[j].active)
 				{
 
 				}
