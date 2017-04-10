@@ -3,6 +3,7 @@
 #include "intpts.h"
 #include "solutions.h"
 #include <fstream>
+#include "test.h"
 
 //HERE
 void getintpts(int i_x1, int i_y1, int r_x2, int r_y2, int d, int pos1, int
@@ -24,6 +25,7 @@ int main() {
 	vector <Sensor> sensor;  //Initial Sensors that are generated
 	vector <Sensor> withinRADIUS; //Sensors that are within a 5 distance
 	vector <Sensor> active; //Sensors that will always be active
+	vector <test> tobeactive;
 
 	cin >> sensornumber;
 
@@ -77,10 +79,11 @@ int main() {
 		//	bottomup(sensor, interpts, active, sensornumber, time1);
 
 		//TODO: FIX THIS
-		testbottomup(sensor, interpts, active);
+		//testbottomup(sensor, interpts, active);
 		//Works.... kind of
 	   // testtopdown(sensor,active,time);
 
+		greedy(sensor, active, interpts, tobeactive);
 
 		//Reduces energy of active sensors by 1 each round
 		//Problem in this?

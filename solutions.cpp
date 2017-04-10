@@ -198,6 +198,46 @@ void testtopdown(vector<Sensor> &s, vector<Sensor> &a, int time) {
 	}
 }
 
+void greedy(vector<Sensor> &s, vector<Sensor> &a, vector<intpts> &ip,  vector
+		<test> &tba) {
+	int temp1;
+	int temp2;
+	for(int i = 0; i < ip.size(); i++)
+	{
+		temp1 = countintpts(ip[i].s1, i, tba, ip, s);
+		temp2 = countintpts(ip[i].s2, i, tba, ip, s);
+		if(temp1 > 0)
+			tba.push_back(test(ip[i].s1, temp1));
+		if(temp2 > 0)
+			tba.push_back(test(ip[i].s2, temp2));
+	}
+	sort(tba.begin(), tba.end());
+
+	for(int i = 0; i < tba.size(); i++)
+	{
+		cout <<tba[i].pos<<endl;
+		cout <<tba[i].count<<endl;
+	}
+}
+
+int countintpts(int pos, int loc, vector<Sensor> &tba, vector<intpts> &ip,vector<Sensor> &s ) {
+	int counter = 2;
+	for (int i = 0; i < tba.size(); i++) {
+		if (tba[i] == s[pos])
+			return 0;
+	}
+	for (int i = loc + 1; i < ip.size(); i++) {
+		if ((ip[i].s1 == pos || ip[i].s2 == pos) && (ip[loc].s1 != ip[i].s2 && (ip[loc].s2 != ip[i].s1))) {
+			counter++;
+		}
+	}
+	return counter;
+}
+
+//void insert(vector<test> &tba, int value ) {
+//	tba::iterator it = lower_bound( cont.begin(), cont.end(), value, std::greater<int>() ); // find proper position in descending order
+//	cont.insert( it, value ); // insert before iterator it
+//}
 
 
 

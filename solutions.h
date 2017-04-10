@@ -8,6 +8,7 @@
 #include <iostream>
 #include "sensor.h"
 #include "intpts.h"
+#include "test.h"
 #include <vector>
 using namespace std;
 
@@ -27,4 +28,11 @@ void testbottomup(vector <Sensor> &s, const vector <intpts> &ip, vector<Sensor> 
 void testtopdown(vector<Sensor> &s, vector<Sensor> &a, int time);
 
 bool foundintcp(int pos, const vector<intpts> &ip, const vector<Sensor> &s, int i);
+
+void greedy(vector<Sensor> &s, vector<Sensor> &a, vector <intpts> &ip, vector
+		<test> &tba);
+
+int countintpts(int pos, int loc, vector<test> &tba, vector<intpts> &ip, vector<Sensor> &s);
+
+//void insert(vector<test> &tba, int value );
 #endif //CS2500_SOLUTIONS_H
