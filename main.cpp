@@ -21,8 +21,6 @@ int main() {
 	ofstream fresenergy;
 	ofstream fperccov;
 	int time = 0;
-	int time1 = 0;
-	//int count = 0;
 	vector <Sensor> sensor;  //Initial Sensors that are generated
 	vector <Sensor> withinRADIUS; //Sensors that are within a 5 distance
 	vector <Sensor> active; //Sensors that will always be active
@@ -56,66 +54,12 @@ int main() {
 					withinRADIUS.push_back(sensor[j]);
 					getintpts(sensor[i].xpos, sensor[i].ypos, sensor[j].xpos,
 					          sensor[j].ypos, distance, i, j);
-					/*
-					cout << "Points that cause Intersection: " << endl;
-					cout <<sensor[i];
-					cout <<sensor[j];
-					cout <<"with a distance of: "<<distance<<endl;
-					cout <<"count: "<<count<<endl;
-					cout <<"INTERSECTION LOCATIONS: "<<endl;
-					cout << interpts[count];
-					count++;
-					 */
 				}
 			}
 		}
 	}
 
-	//Note: Probably not needed
-	//Puts ones that have nothing close to it into the alive vector
-//	for(int i = 0; i < sensornumber; i++) {
-//		if(find(withinRADIUS.begin(), withinRADIUS.end(), sensor[i])
-//		 != withinRADIUS.end()){}
-//		else{
-//			active.push_back(sensor[i]);
-//		}
-//	}
-
-
 	//TODO: Remove sample output
-	/*
-	for(int i = 0; i < sensornumber; i++) {
-		cout << "--------------------ITERATION: "
-				"" << i << "--------------------" << endl;
-		cout << sensor[i];
-	}
-	cout << "*****IN RADIUS*****" << endl;
-	for(int i = 0; i < withinRADIUS.size(); i++) {
-		cout << withinRADIUS[i];
-		cout <<"COUNT: "<<i<<endl;
-	}
-
-	//Always alive
-	cout <<"-----ALWAYS ALIVE-----"<<endl;
-	for(int i = 0; i < active.size(); i++){
-		cout <<active[i];
-		cout <<"COUNT: "<<i<<endl;
-	}
-*/
-
-	//This generates an excel file
-	//Note: This wipes the file every time it opens it again
-	//NOTE: Will generate file 1 directory above current director
-//	ftest.open("../test.csv");
-//	ftest <<"xpos, ypos, energy"<<endl;
-//	for(int i = 0; i < sensornumber; i++) {
-//		ftest << sensor[i] << endl;
-//	}
-//	ftest.close();
-
-
-//	cout<<"Size of active"<<active.size()<<endl;
-
 	//NOTE: Will generate file 1 directory above current directory
 	//======TESTS=====
 	fallalive.open("../allalive.csv");
@@ -135,10 +79,10 @@ int main() {
 		//TODO: FIX THIS
 		//testbottomup(sensor, interpts, active);
 		//Works.... kind of
-		testtopdown(sensor,active,time);
+	    testtopdown(sensor,active,time);
+
+
 		//Reduces energy of active sensors by 1 each round
-
-
 		//Problem in this?
 		for(int i = 0; i < active.size(); i++)
 		{
@@ -146,25 +90,23 @@ int main() {
 				active[i].energy--;
 				if (active[i].energy <= 0)
 					active[i].active = false;
-			for(int j = 0; j < sensor.size(); j++)
-				if(sensor[j].xpos == active[i].xpos && sensor[j].ypos == active[i].ypos)
-				{
-					sensor[j].energy--;
-					//cout <<"SENSOR AT:  "<<j<<endl;
-					if(sensor[j].energy <= 0)
+			for(int j = 0; j < sensor.size(); j++) {
+				if (sensor[j].xpos == active[i].xpos && sensor[j].ypos == active[i].ypos && sensor[j].energy > 0) {
+					j = sensor.size() - 1;
+					if (sensor[j].energy <= 0)
 						sensor[j].active = false;
 				}
 			}
+			}
 		}
-
+		cout <<"TIME "<<time<<endl;
 		//Outputs the data
-	//	cout <<alivesensors(active,sensornumber)<<endl;
 		fallalive<<time<<","<< alivesensors(active,sensornumber)<<endl;
 		fallactive<<time<<","<< activesensors(active,sensornumber)<<endl;
 		fresenergy<<time<<","<< resenergy(active,sensornumber)<<endl;
 		fperccov<<time<<","<<percentcovg(active,sensornumber)<<endl;
 		time++;
-	}while(time < 1000);
+	}while(percentcovg(active, sensornumber) > .50);
 	//Closing files
 	fallalive.close();
 	fallactive.close();

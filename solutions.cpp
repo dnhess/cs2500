@@ -52,6 +52,14 @@ float resenergy(const vector<Sensor> &s, int sensornumber) {
 //Gets the coverage range of sensors at a given round
 float percentcovg(const vector<Sensor> &s, int sensornumber) {
 	float covered = 0;
+	int counter = 0;
+	for(int i = 0; i < s.size(); i++)
+	{
+		if(s[i].active && s[i].energy > 0){
+			counter++;
+		}
+
+	}
 	for(int i = 0; i < s.size(); i++) {
 		int rnd = rand() % (50 * 50);
 		int x = rnd % 50;
@@ -69,7 +77,7 @@ float percentcovg(const vector<Sensor> &s, int sensornumber) {
 	}
 	//cout <<"COVERED: "<<covered<<endl;
 //	cout <<"SIZE: "<<s.size()<<endl;
-	return covered/s.size();
+	return covered/counter;
 }
 
 //Bottom Up Approach
@@ -137,50 +145,44 @@ bool foundintcp(int pos, const vector<intpts> &ip, const vector<Sensor> &s,
 		xdis2 = abs(s[pos].xpos - ip[j].x_2);
 		ydis2 = abs(s[pos].ypos - ip[j].y_2);
 		//cout <<"Stuck 2?"<<endl;
-		if(((xdis1 == 5 && ydis1 == 5) || (xdis2 == 5 && ydis2 == 5))
-		   && i != j && s[j].active)
-		{
-			return true;
-		} else{
-			return false;
-		}
+		return ((xdis1 == 5 && ydis1 == 5) || (xdis2 == 5 && ydis2 == 5))
+		       && i != j && s[j].active;
 	}
 }
 
 
 //Bottom Up
-//void testbottomup(vector<Sensor> &s, const vector<intpts> &ip, vector<Sensor> &a)
-//{
-//	int tmp1;
-//	int tmp2;
-//	for (int i = 0; i < s.size(); i++) {
-//		bool contains = true;
-//		if (s[i].active && s[i].energy > 0) {
-//			if(a.size() != 0) {
-//				for (int j = 0; j < s.size(); j++) {
-//					if (s[i].xpos == a[j].xpos && s[i].ypos == a[j].ypos) {
-//						contains = false;
-//						j = s.size() - 1;
-//					}
-//				}
-//			}
-//		//	cout <<"contains: "<<contains<<endl;
-//			if (contains) {
-//				for (int j = 0; j < ip.size(); j++)
-//				{
-//					tmp1 = ip[j].s1;
-//					tmp2 = ip[j].s2;
-//					if (s[tmp1] == s[i] || s[tmp2] == s[i])
-//					{
-//						a.push_back(s[i]);
-//						j = ip.size() - 1;
-//			//			cout << "ACTIVE SIZE: " << a.size() << endl;
-//					}
-//				}
-//			}
-//		}
-//	}
-//}
+void testbottomup(vector<Sensor> &s, const vector<intpts> &ip, vector<Sensor> &a)
+{
+	int tmp1;
+	int tmp2;
+	for (int i = 0; i < s.size(); i++) {
+		bool contains = true;
+		if (s[i].active && s[i].energy > 0) {
+			if(a.size() != 0) {
+				for (int j = 0; j < s.size(); j++) {
+					if (s[i].xpos == a[j].xpos && s[i].ypos == a[j].ypos) {
+						contains = false;
+						j = s.size() - 1;
+					}
+				}
+			}
+			if (contains) {
+				for (int j = 0; j < ip.size(); j++)
+				{
+					tmp1 = ip[j].s1;
+					tmp2 = ip[j].s2;
+					if (s[tmp1] == s[i] || s[tmp2] == s[i])
+					{
+						a.push_back(s[i]);
+						j = ip.size() - 1;
+						cout << "ACTIVE SIZE: " << a.size() << endl;
+						}
+				}
+			}
+		}
+	}
+}
 
 
 //Top-Down
@@ -193,16 +195,13 @@ void testtopdown(vector<Sensor> &s, vector<Sensor> &a, int time) {
 			a.push_back(s[i]);
 		}
 	}
-	else
-	{
+	else {
 		int rnd = rand() % (50 * 50);
 		int pos = rnd % 50;
 		float temp_covg = percentcovg(a, time);
-		//cout <<"TEMP "<<temp_covg<<endl;
 		a[pos].active = false;
 		coverage = percentcovg(a, time);
-	//	cout <<"AFTER CHANGE: "<<percentcovg(a, time)<<endl;
-		if((coverage < temp_covg) && a[pos].energy > 0)
+		if ((coverage < temp_covg) && a[pos].energy > 0)
 			a[pos].active = true;
 	}
 }
