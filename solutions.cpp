@@ -3,6 +3,7 @@
 //
 
 #include "solutions.h"
+#include "math.h"
 #include <fstream>
 
 //Gets how many active sensors exists at the given round
@@ -52,24 +53,24 @@ float resenergy(const vector<Sensor> &s, int sensornumber) {
 //Gets the coverage range of sensors at a given round
 float percentcovg(const vector<Sensor> &s, int sensornumber) {
 	float covered = 0;
-	for(int i = 0; i < s.size(); i++) {
+	int distance = 0;
+	for(int i = 0; i < sensornumber; i++) {
 		int rnd = rand() % (50 * 50);
 		int x = rnd % 50;
 		int y = rnd / 50;
 		for(int j = 0; j < s.size(); j++)
 		{
-			int testx = abs(s[j].xpos - x);
-			int testy = abs(s[j].ypos - y);
-			if(testx < 5 && testy < 5 && s[j].active)
+			distance = abs((int) sqrt(((s[j].xpos - x) * (s[j].xpos - x)) + ((s[j].ypos - y) * (s[j].ypos - y))));
+		//	cout <<"DISTANCE: "<<distance<<endl;
+			if(distance <= 5 && s[j].active && s[j].energy > 0)
 			{
 				covered++;
 				j = s.size() - 1;
 			}
 		}
 	}
-	//cout <<"COVERED: "<<covered<<endl;
-//	cout <<"SIZE: "<<s.size()<<endl;
-	return covered/s.size();
+	//cout <<"PERCENT: "<<(covered/sensornumber)<<endl;
+	return covered/sensornumber;
 }
 
 //Bottom Up Approach
@@ -150,15 +151,16 @@ void testbottomup(vector<Sensor> &s, const vector<intpts> &ip, vector<Sensor> &a
 	int tmp2;
 	for (int i = 0; i < s.size(); i++) {
 		bool contains = true;
-		if (s[i].active && s[i].energy > 0) {
+		if (s[i].active) {
 			if(a.size() != 0) {
-				for (int j = 0; j < s.size(); j++) {
+				for (int j = 0; j < a.size(); j++) {
 					if (s[i].xpos == a[j].xpos && s[i].ypos == a[j].ypos) {
 						contains = false;
-						j = s.size() - 1;
+						j = a.size() - 1;
 					}
 				}
 			}
+
 			if (contains) {
 				for (int j = 0; j < ip.size(); j++)
 				{
@@ -166,9 +168,10 @@ void testbottomup(vector<Sensor> &s, const vector<intpts> &ip, vector<Sensor> &a
 					tmp2 = ip[j].s2;
 					if (s[tmp1] == s[i] || s[tmp2] == s[i])
 					{
+//			    		cout <<"GETS HERE"<<endl;
 						a.push_back(s[i]);
 						j = ip.size() - 1;
-						cout << "ACTIVE SIZE: " << a.size() << endl;
+						//cout << "ACTIVE SIZE: " << a.size() << endl;
 						}
 				}
 			}
@@ -190,41 +193,63 @@ void testtopdown(vector<Sensor> &s, vector<Sensor> &a, int time) {
 	else {
 		int rnd = rand() % (50 * 50);
 		int pos = rnd % 50;
-		float temp_covg = percentcovg(a, time);
+		float temp_covg = percentcovg(a, s.size());
 		a[pos].active = false;
-		coverage = percentcovg(a, time);
-		if ((coverage < temp_covg) && a[pos].energy > 0)
+		coverage = percentcovg(a, s.size());
+		if ((coverage < temp_covg) && a[pos].energy > 0) {
 			a[pos].active = true;
+//			cout <<"HERE"<<endl;
+//			cout <<"Temp_covg: "<<temp_covg<<endl;
+//			cout <<"COVERAGE: "<<coverage<<endl;
+		}
 	}
 }
 
 void greedy(vector<Sensor> &s, vector<Sensor> &a, vector<intpts> &ip,  vector
-		<test> &tba) {
+		<test> &tba, int &currentpos) {
 	int temp1;
 	int temp2;
-	for(int i = 0; i < ip.size(); i++)
-	{
-		temp1 = countintpts(ip[i].s1, i, tba, ip, s);
-		temp2 = countintpts(ip[i].s2, i, tba, ip, s);
-		if(temp1 > 0)
-			tba.push_back(test(ip[i].s1, temp1));
-		if(temp2 > 0)
-			tba.push_back(test(ip[i].s2, temp2));
+	bool skip;
+	int counter = 0;
+	if(currentpos == 0) {
+		for (int i = 0; i < ip.size(); i++) {
+			temp1 = countintpts(ip[i].s1, i, tba, ip, s, 2);
+			temp2 = countintpts(ip[i].s2, i, tba, ip, s, 2);
+			if (temp1 > 0)
+				tba.push_back(test(ip[i].s1, temp1));
+			if (temp2 > 0)
+				tba.push_back(test(ip[i].s2, temp2));
+		}
+		for(int i = 0; i < s.size(); i++)
+		{
+			skip = false;
+			for(int j = 0; j < tba.size(); j++)
+			{
+				if(tba[j].pos == i){
+					counter++;
+					skip = true;
+				}
+				if(j == tba.size() - 1 && !skip)
+				{
+					tba.push_back(test(i, 0));
+					j = tba.size() - 1;
+				}
+			}
+		}
 	}
 	sort(tba.begin(), tba.end());
-
-	for(int i = 0; i < tba.size(); i++)
-	{
-		cout <<tba[i].pos<<endl;
-		cout <<tba[i].count<<endl;
-	}
+	activation(a, currentpos, tba, s);
 }
 
-int countintpts(int pos, int loc, vector<Sensor> &tba, vector<intpts> &ip,vector<Sensor> &s ) {
-	int counter = 2;
+int countintpts(int pos, int loc, vector<test> &tba, vector<intpts> &ip, vector<Sensor> &s, int counter ) {
 	for (int i = 0; i < tba.size(); i++) {
-		if (tba[i] == s[pos])
+		if (tba[i].pos == ip[pos].s1) {
 			return 0;
+		}
+		if(tba[i].pos == ip[pos].s2)
+		{
+			return 0;
+		}
 	}
 	for (int i = loc + 1; i < ip.size(); i++) {
 		if ((ip[i].s1 == pos || ip[i].s2 == pos) && (ip[loc].s1 != ip[i].s2 && (ip[loc].s2 != ip[i].s1))) {
@@ -234,11 +259,18 @@ int countintpts(int pos, int loc, vector<Sensor> &tba, vector<intpts> &ip,vector
 	return counter;
 }
 
-//void insert(vector<test> &tba, int value ) {
-//	tba::iterator it = lower_bound( cont.begin(), cont.end(), value, std::greater<int>() ); // find proper position in descending order
-//	cont.insert( it, value ); // insert before iterator it
-//}
-
+void activation(vector<Sensor> &a, int &currentpos, vector<test> & tba,
+                vector<Sensor> &s) {
+	if( tba.size() == currentpos) {
+		return;
+	}
+	if((percentcovg(a, s.size()) < .98 || currentpos == 0))
+	{
+		a.push_back(s[tba[currentpos].pos]);
+		currentpos++;
+		activation(a, currentpos, tba, s);
+	}
+}
 
 
 

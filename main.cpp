@@ -16,12 +16,15 @@ int main() {
 	srand(time(NULL));
 	int sensornumber;
 	int distance;
+	float coverage;
+	int currentpos = 0;
 	ofstream ftest;
 	ofstream fallalive;
 	ofstream fallactive;
 	ofstream fresenergy;
 	ofstream fperccov;
 	int time = 0;
+	int time1 = 0;
 	vector <Sensor> sensor;  //Initial Sensors that are generated
 	vector <Sensor> withinRADIUS; //Sensors that are within a 5 distance
 	vector <Sensor> active; //Sensors that will always be active
@@ -61,6 +64,11 @@ int main() {
 		}
 	}
 
+	////ONLY UNCOMMENT FOR ALL ACTIVE
+//	for(int i = 0; i < sensornumber; i++)
+//	{
+//		active.push_back(sensor[i]);
+//	}
 	//TODO: Remove sample output
 	//NOTE: Will generate file 1 directory above current directory
 	//======TESTS=====
@@ -72,6 +80,8 @@ int main() {
 	fresenergy <<"Round, Residual Energy"<<endl;
 	fperccov.open("../perccov.csv");
 	fperccov <<"Round, Percentage Covered"<<endl;
+
+
 	do
 	{
 		//In theory the algorithm functions can be placed in here and be
@@ -79,37 +89,39 @@ int main() {
 		//	bottomup(sensor, interpts, active, sensornumber, time1);
 
 		//TODO: FIX THIS
-		//testbottomup(sensor, interpts, active);
+	//	testbottomup(sensor, interpts, active);
 		//Works.... kind of
 	   // testtopdown(sensor,active,time);
 
-		greedy(sensor, active, interpts, tobeactive);
+		greedy(sensor, active, interpts, tobeactive, currentpos);
 
 		//Reduces energy of active sensors by 1 each round
 		//Problem in this?
 		for(int i = 0; i < active.size(); i++)
 		{
-			if(active[i].active && active[i].energy > 0) {
+			if(active[i].active) {
 				active[i].energy--;
 				if (active[i].energy <= 0)
 					active[i].active = false;
-			for(int j = 0; j < sensor.size(); j++) {
-				if (sensor[j].xpos == active[i].xpos && sensor[j].ypos == active[i].ypos && sensor[j].energy > 0 && sensor[j].active) {
-					j = sensor.size() - 1;
-					if (sensor[j].energy <= 0)
-						sensor[j].active = false;
+				for(int j = 0; j < sensor.size(); j++) {
+					if (sensor[j] == active[i] && sensor[j].active) {
+						sensor[j].energy--;
+						if (sensor[j].energy <= 0)
+							sensor[j].active = false;
+						j = sensor.size() - 1;
+					}
 				}
 			}
-			}
 		}
-		cout <<"TIME "<<time<<endl;
+	//	cout <<"TIME "<<time<<endl;
 		//Outputs the data
+		coverage = percentcovg(active,sensornumber);
 		fallalive<<time<<","<< alivesensors(active,sensornumber)<<endl;
 		fallactive<<time<<","<< activesensors(active,sensornumber)<<endl;
 		fresenergy<<time<<","<< resenergy(active,sensornumber)<<endl;
-		fperccov<<time<<","<<percentcovg(active,sensornumber)<<endl;
+		fperccov<<time<<","<<coverage<<endl;
 		time++;
-	}while(time < 1000);
+	}while(coverage >= .50);
 	//Closing files
 	fallalive.close();
 	fallactive.close();

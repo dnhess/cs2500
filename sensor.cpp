@@ -23,6 +23,10 @@ Sensor Sensor ::operator-(Sensor t) {
 	return tmp;
 }
 
+//int Sensor::findpos(const vector<Sensor> &s, int cp) {
+//
+//}
+
 /*bool Sensor::halfleft(const vector<Sensor> &s, int sensornumber)
 {
 	int count = 0;

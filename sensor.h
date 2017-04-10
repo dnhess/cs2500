@@ -25,5 +25,7 @@ public:
 	//Allows for subtraction of two sensors (Could be useful later)
 	Sensor operator-(Sensor);
 	bool halfleft(const vector<Sensor> &s,int sensornumber);
+
+	//int findpos(const vector<Sensor> &s, int currentpos);
 };
 #endif //CS2500_SENSOR_H
