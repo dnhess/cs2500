@@ -52,14 +52,6 @@ float resenergy(const vector<Sensor> &s, int sensornumber) {
 //Gets the coverage range of sensors at a given round
 float percentcovg(const vector<Sensor> &s, int sensornumber) {
 	float covered = 0;
-	int counter = 0;
-	for(int i = 0; i < s.size(); i++)
-	{
-		if(s[i].active && s[i].energy > 0){
-			counter++;
-		}
-
-	}
 	for(int i = 0; i < s.size(); i++) {
 		int rnd = rand() % (50 * 50);
 		int x = rnd % 50;
@@ -77,7 +69,7 @@ float percentcovg(const vector<Sensor> &s, int sensornumber) {
 	}
 	//cout <<"COVERED: "<<covered<<endl;
 //	cout <<"SIZE: "<<s.size()<<endl;
-	return covered/counter;
+	return covered/s.size();
 }
 
 //Bottom Up Approach

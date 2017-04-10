@@ -77,9 +77,9 @@ int main() {
 		//	bottomup(sensor, interpts, active, sensornumber, time1);
 
 		//TODO: FIX THIS
-		//testbottomup(sensor, interpts, active);
+		testbottomup(sensor, interpts, active);
 		//Works.... kind of
-	    testtopdown(sensor,active,time);
+	   // testtopdown(sensor,active,time);
 
 
 		//Reduces energy of active sensors by 1 each round
@@ -91,7 +91,7 @@ int main() {
 				if (active[i].energy <= 0)
 					active[i].active = false;
 			for(int j = 0; j < sensor.size(); j++) {
-				if (sensor[j].xpos == active[i].xpos && sensor[j].ypos == active[i].ypos && sensor[j].energy > 0) {
+				if (sensor[j].xpos == active[i].xpos && sensor[j].ypos == active[i].ypos && sensor[j].energy > 0 && sensor[j].active) {
 					j = sensor.size() - 1;
 					if (sensor[j].energy <= 0)
 						sensor[j].active = false;
@@ -106,7 +106,7 @@ int main() {
 		fresenergy<<time<<","<< resenergy(active,sensornumber)<<endl;
 		fperccov<<time<<","<<percentcovg(active,sensornumber)<<endl;
 		time++;
-	}while(percentcovg(active, sensornumber) > .50);
+	}while(time < 1000);
 	//Closing files
 	fallalive.close();
 	fallactive.close();
