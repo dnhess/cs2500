@@ -22,8 +22,9 @@ float percentcovg(const vector<Sensor> &s, int sensornumber);
 void bottomup(vector<Sensor> &s, const vector<intpts> &ip, vector<Sensor> &a, int
 sensornumber, int called);
 
-void testbottomup(vector <Sensor> &s, const vector <intpts> &ip, int snum,
-                  vector<Sensor> &a);
+void testbottomup(vector <Sensor> &s, const vector <intpts> &ip, vector<Sensor> &a);
+
+void testtopdown(vector<Sensor> &s, vector<Sensor> &a, int time);
 
 bool foundintcp(int pos, const vector<intpts> &ip, const vector<Sensor> &s, int i);
 #endif //CS2500_SOLUTIONS_H

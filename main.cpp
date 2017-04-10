@@ -30,11 +30,11 @@ int main() {
 	cin >> sensornumber;
 
 	//Randomly add the sensors to random positions
-	for (int i = 0; i <= sensornumber; i++) {
+	for (int i = 0; i < sensornumber; i++) {
 		int rnd = rand() % (50 * 50);
 		int x = rnd % 50;
 		int y = rnd / 50;
-		sensor.push_back(Sensor(x,y,300,false)); //xpos, ypos, energy, alive
+		sensor.push_back(Sensor(x,y,300,true)); //xpos, ypos, energy, alive
 		// status
 	}
 
@@ -73,13 +73,13 @@ int main() {
 
 	//Note: Probably not needed
 	//Puts ones that have nothing close to it into the alive vector
-	for(int i = 0; i < sensornumber; i++) {
-		if(find(withinRADIUS.begin(), withinRADIUS.end(), sensor[i])
-		 != withinRADIUS.end()){}
-		else{
-			active.push_back(sensor[i]);
-		}
-	}
+//	for(int i = 0; i < sensornumber; i++) {
+//		if(find(withinRADIUS.begin(), withinRADIUS.end(), sensor[i])
+//		 != withinRADIUS.end()){}
+//		else{
+//			active.push_back(sensor[i]);
+//		}
+//	}
 
 
 	//TODO: Remove sample output
@@ -106,15 +106,15 @@ int main() {
 	//This generates an excel file
 	//Note: This wipes the file every time it opens it again
 	//NOTE: Will generate file 1 directory above current director
-	ftest.open("../test.csv");
-	ftest <<"xpos, ypos, energy"<<endl;
-	for(int i = 0; i < sensornumber; i++) {
-		ftest << sensor[i] << endl;
-	}
-	ftest.close();
+//	ftest.open("../test.csv");
+//	ftest <<"xpos, ypos, energy"<<endl;
+//	for(int i = 0; i < sensornumber; i++) {
+//		ftest << sensor[i] << endl;
+//	}
+//	ftest.close();
 
 
-	cout<<"Size of active"<<active.size()<<endl;
+//	cout<<"Size of active"<<active.size()<<endl;
 
 	//NOTE: Will generate file 1 directory above current directory
 	//======TESTS=====
@@ -128,40 +128,41 @@ int main() {
 	fperccov <<"Round, Percentage Covered"<<endl;
 	do
 	{
-		/*
-		sensor[30].active = false;
-		sensor[33].active = false;
-		sensor[28].active = false;
-		sensor[42].active = false;
-		sensor[20].active = false;
-		sensor[10].active = false;
-		sensor[31].active = false;
-		sensor[35].active = false;
-		sensor[29].active = false;
-		sensor[43].active = false;
-		sensor[22].active = false;
-		sensor[19].active = false;
-		 */
-
-
 		//In theory the algorithm functions can be placed in here and be
 		// forced every couple of rounds to adjust the sensors.
-			bottomup(sensor, interpts, active, sensornumber, time1);
-			//cout <<"runs this"<<endl;
+		//	bottomup(sensor, interpts, active, sensornumber, time1);
+
+		//TODO: FIX THIS
+		//testbottomup(sensor, interpts, active);
+		//Works.... kind of
+		testtopdown(sensor,active,time);
 		//Reduces energy of active sensors by 1 each round
-		for(int i = 0; i < sensornumber; i++)
+
+
+		//Problem in this?
+		for(int i = 0; i < active.size(); i++)
 		{
-			if(sensor[i].active) {
-				sensor[i].energy--;
+			if(active[i].active && active[i].energy > 0) {
+				active[i].energy--;
+				if (active[i].energy <= 0)
+					active[i].active = false;
+			for(int j = 0; j < sensor.size(); j++)
+				if(sensor[j].xpos == active[i].xpos && sensor[j].ypos == active[i].ypos)
+				{
+					sensor[j].energy--;
+					//cout <<"SENSOR AT:  "<<j<<endl;
+					if(sensor[j].energy <= 0)
+						sensor[j].active = false;
+				}
 			}
-			if (sensor[i].energy <= 0)
-				sensor[i].active = false;
 		}
+
 		//Outputs the data
-		fallalive<<time<<","<< alivesensors(sensor,sensornumber)<<endl;
-		fallactive<<time<<","<< activesensors(sensor,sensornumber)<<endl;
-		fresenergy<<time<<","<< resenergy(sensor,sensornumber)<<endl;
-		fperccov<<time<<","<<percentcovg(sensor,sensornumber)<<endl;
+	//	cout <<alivesensors(active,sensornumber)<<endl;
+		fallalive<<time<<","<< alivesensors(active,sensornumber)<<endl;
+		fallactive<<time<<","<< activesensors(active,sensornumber)<<endl;
+		fresenergy<<time<<","<< resenergy(active,sensornumber)<<endl;
+		fperccov<<time<<","<<percentcovg(active,sensornumber)<<endl;
 		time++;
 	}while(time < 1000);
 	//Closing files
