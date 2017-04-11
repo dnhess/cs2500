@@ -3,7 +3,7 @@
 #include "intpts.h"
 #include "solutions.h"
 #include <fstream>
-#include "test.h"
+
 
 //HERE
 void getintpts(int i_x1, int i_y1, int r_x2, int r_y2, int d, int pos1, int
@@ -71,6 +71,7 @@ int main() {
 //	}
 	//TODO: Remove sample output
 	//NOTE: Will generate file 1 directory above current directory
+
 	//======TESTS=====
 	fallalive.open("../allalive.csv");
 	fallalive <<"Round, Percent Alive"<<endl;
@@ -92,7 +93,6 @@ int main() {
 	//   testtopdown(sensor,active,time);
 
 		//Reduces energy of active sensors by 1 each round
-		//Problem in this?
 		coverage = percentcovg(active,sensornumber);
 		fallalive<<time<<","<< alivesensors(active,sensornumber)<<endl;
 		fallactive<<time<<","<< activesensors(active,sensornumber)<<endl;
@@ -100,7 +100,6 @@ int main() {
 		fperccov<<time<<","<<coverage<<endl;
 		for(int i = 0; i < active.size(); i++)
 		{
-			//cout <<"ACTIVE POS: "<<i<<" STATUS: "<<active[i].active<<endl;
 			if(active[i].active) {
 				active[i].energy--;
 				if (active[i].energy <= 0)

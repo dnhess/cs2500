@@ -62,7 +62,6 @@ float percentcovg(const vector<Sensor> &s, int sensornumber) {
 		for(int j = 0; j < s.size(); j++)
 		{
 			distance = abs((int) sqrt(((s[j].xpos - x) * (s[j].xpos - x)) + ((s[j].ypos - y) * (s[j].ypos - y))));
-		//	cout <<"DISTANCE: "<<distance<<endl;
 			if(distance <= 5 && s[j].active && s[j].energy > 0)
 			{
 				covered++;
@@ -70,7 +69,6 @@ float percentcovg(const vector<Sensor> &s, int sensornumber) {
 			}
 		}
 	}
-	//cout <<"PERCENT: "<<(covered/sensornumber)<<endl;
 	percent = covered/sensornumber;
 	if(percent > 1)
 		percent = 1;
@@ -122,16 +120,13 @@ void testbottomup(vector<Sensor> &s, const vector<intpts> &ip, vector<Sensor> &a
 					tmp2 = ip[j].s2;
 					if (s[tmp1] == s[i] || s[tmp2] == s[i])
 					{
-//			    		cout <<"GETS HERE"<<endl;
 						a.push_back(s[i]);
 						j = ip.size() - 1;
-				//		cout << "ACTIVE SIZE: " << a.size() << endl;
 						}
 				}
 			}
 		}
 	}
-	//cout <<"ACTIVE SIZE: "<<a.size()<<endl;
 }
 
 
@@ -140,7 +135,6 @@ void testbottomup(vector<Sensor> &s, const vector<intpts> &ip, vector<Sensor> &a
 void testtopdown(vector<Sensor> &s, vector<Sensor> &a, int time) {
 	float coverage;
 	int count;
-	//cout <<"Gets here"<<endl;
 	if(time == 0) {
 		for (int i = 0; i < s.size(); i++) {
 			a.push_back(s[i]);
@@ -157,11 +151,9 @@ void testtopdown(vector<Sensor> &s, vector<Sensor> &a, int time) {
 			if ((coverage < temp_covg) && a[pos].energy > 0) {
 				a[pos].active = true;
 				count++;
-				//cout<<"HERE"<<endl;
 			}
 			if(coverage >= temp_covg) {
 				count = s.size();
-				//cout<<"FOUND ONE!"<<endl;
 			}
 		}
 	}
