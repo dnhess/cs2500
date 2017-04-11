@@ -86,17 +86,18 @@ int main() {
 	{
 		//In theory the algorithm functions can be placed in here and be
 		// forced every couple of rounds to adjust the sensors.
-		//	bottomup(sensor, interpts, active, sensornumber, time1);
-
-		//TODO: FIX THIS
-		//testbottomup(sensor, interpts, active);
-		//Works.... kind of
-	   // testtopdown(sensor,active,time);
 
 		greedy(sensor, active, interpts, tobeactive, currentpos);
+	//	testbottomup(sensor, interpts, active);
+	 //  testtopdown(sensor,active,time);
 
 		//Reduces energy of active sensors by 1 each round
 		//Problem in this?
+		coverage = percentcovg(active,sensornumber);
+		fallalive<<time<<","<< alivesensors(active,sensornumber)<<endl;
+		fallactive<<time<<","<< activesensors(active,sensornumber)<<endl;
+		fresenergy<<time<<","<< resenergy(active,sensornumber)<<endl;
+		fperccov<<time<<","<<coverage<<endl;
 		for(int i = 0; i < active.size(); i++)
 		{
 			cout <<"ACTIVE POS: "<<i<<" STATUS: "<<active[i].active<<endl;
@@ -114,13 +115,7 @@ int main() {
 				}
 			}
 		}
-	//	cout <<"TIME "<<time<<endl;
 		//Outputs the data
-		coverage = percentcovg(active,sensornumber);
-		fallalive<<time<<","<< alivesensors(active,sensornumber)<<endl;
-		fallactive<<time<<","<< activesensors(active,sensornumber)<<endl;
-		fresenergy<<time<<","<< resenergy(active,sensornumber)<<endl;
-		fperccov<<time<<","<<coverage<<endl;
 		time++;
 	}while(coverage >= .50);
 	//Closing files
