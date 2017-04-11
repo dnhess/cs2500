@@ -87,9 +87,9 @@ int main() {
 		//In theory the algorithm functions can be placed in here and be
 		// forced every couple of rounds to adjust the sensors.
 
-		greedy(sensor, active, interpts, tobeactive, currentpos);
-	//	testbottomup(sensor, interpts, active);
-	 //  testtopdown(sensor,active,time);
+	//	greedy(sensor, active, interpts, tobeactive, currentpos);
+		testbottomup(sensor, interpts, active);
+	//   testtopdown(sensor,active,time);
 
 		//Reduces energy of active sensors by 1 each round
 		//Problem in this?
@@ -100,7 +100,7 @@ int main() {
 		fperccov<<time<<","<<coverage<<endl;
 		for(int i = 0; i < active.size(); i++)
 		{
-			cout <<"ACTIVE POS: "<<i<<" STATUS: "<<active[i].active<<endl;
+			//cout <<"ACTIVE POS: "<<i<<" STATUS: "<<active[i].active<<endl;
 			if(active[i].active) {
 				active[i].energy--;
 				if (active[i].energy <= 0)

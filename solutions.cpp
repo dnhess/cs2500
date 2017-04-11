@@ -12,7 +12,7 @@ float activesensors(const vector<Sensor> &s, int sensornumber) {
 	float count = 0;
 	for(int i = 0; i < s.size(); i++)
 	{
-		if(s[i].active)
+		if(s[i].active && s[i].energy > 0)
 		{
 			count++;
 		}
@@ -77,71 +77,18 @@ float percentcovg(const vector<Sensor> &s, int sensornumber) {
 	return percent;
 }
 
-//Bottom Up Approach
-//void bottomup(vector <Sensor> &s, const vector <intpts> &ip,
-//              vector <Sensor> &a, int sensornumber, int maxactive) {
-//	int temp_pos;
-//	int counter = 0;
-//	//cout <<"IP SIZE: "<<ip.size()<<endl;
-//	ofstream fallalive;
-//	for(int i = 0; i < ip.size(); i++)
-//	{
-//		temp_pos = ip[i].s1;
-//		if(s[temp_pos].active){}
-//		else
-//		{
-//		//	cout <<"Stuck in here?"<<endl;
-//			if(foundintcp(temp_pos, ip, s, i))
-//			{
-//				temp_pos = ip[i].s2;
-//				if(foundintcp(temp_pos, ip, s, i))
-//				{
-//					s[temp_pos].active = false;
-//				//	cout <<"GETS IN HERE"<<endl;
-//					temp_pos = ip[i].s1;
-//					s[temp_pos].active = true;
-//				} else{
-//					s[temp_pos].active = true;
-//					temp_pos = ip[i].s2;
-//					s[temp_pos].active = false;
-//				}
-//			}
-//			else
-//			{
-//				//cout <<"how about here?"<<endl;
-//				s[ip[i].s1].active = true;
-//				temp_pos = ip[i].s2;
-//				s[temp_pos].active = false;
-//			}
-//
-//		}
-//		fallalive.open("../allalive.csv");
-//		fallalive <<"Round, Active"<<endl;
-//		//cout<<i<<","<< s[i].active<<endl;
-//		if(s[i].active == true)
-//			counter++;
-//	}
-//	fallalive.close();
-//	if(counter >= maxactive)
-//		maxactive = counter;
-//	//cout <<"Number active:"<<counter<<endl;
-//	cout <<"MAXACTIVE: "<<maxactive<<endl;
-//}
-
 bool foundintcp(int pos, const vector<intpts> &ip, const vector<Sensor> &s,
                 int i) {
 	int xdis1;
 	int ydis1;
 	int xdis2;
 	int ydis2;
-	//cout <<"Stuck?"<<endl;
 	for(int j = 0; j < ip.size(); i++)
 	{
 		xdis1 = abs(s[pos].xpos - ip[j].x_1);
 		ydis1 = abs(s[pos].ypos - ip[j].y_1);
 		xdis2 = abs(s[pos].xpos - ip[j].x_2);
 		ydis2 = abs(s[pos].ypos - ip[j].y_2);
-		//cout <<"Stuck 2?"<<endl;
 		return ((xdis1 == 5 && ydis1 == 5) || (xdis2 == 5 && ydis2 == 5))
 		       && i != j && s[j].active;
 	}
@@ -153,18 +100,21 @@ void testbottomup(vector<Sensor> &s, const vector<intpts> &ip, vector<Sensor> &a
 {
 	int tmp1;
 	int tmp2;
+	float distance;
 	for (int i = 0; i < s.size(); i++) {
 		bool contains = true;
 		if (s[i].active) {
-			if(a.size() != 0) {
 				for (int j = 0; j < a.size(); j++) {
-					if (s[i].xpos == a[j].xpos && s[i].ypos == a[j].ypos) {
+					distance = abs((int) sqrt(((a[j].xpos - s[i].xpos) *
+							(a[j].xpos - s[i].xpos)) + ((a[j].ypos - s[i].ypos)
+					                                    * (a[j].ypos - s[i].ypos)
+					)));
+					if ((s[i].xpos == a[j].xpos && s[i].ypos == a[j].ypos) ||
+							distance <= 10 && !a[j].active) {
 						contains = false;
 						j = a.size() - 1;
 					}
 				}
-			}
-
 			if (contains) {
 				for (int j = 0; j < ip.size(); j++)
 				{
@@ -175,12 +125,13 @@ void testbottomup(vector<Sensor> &s, const vector<intpts> &ip, vector<Sensor> &a
 //			    		cout <<"GETS HERE"<<endl;
 						a.push_back(s[i]);
 						j = ip.size() - 1;
-						//cout << "ACTIVE SIZE: " << a.size() << endl;
+				//		cout << "ACTIVE SIZE: " << a.size() << endl;
 						}
 				}
 			}
 		}
 	}
+	//cout <<"ACTIVE SIZE: "<<a.size()<<endl;
 }
 
 
@@ -188,6 +139,7 @@ void testbottomup(vector<Sensor> &s, const vector<intpts> &ip, vector<Sensor> &a
 
 void testtopdown(vector<Sensor> &s, vector<Sensor> &a, int time) {
 	float coverage;
+	int count;
 	//cout <<"Gets here"<<endl;
 	if(time == 0) {
 		for (int i = 0; i < s.size(); i++) {
@@ -195,16 +147,22 @@ void testtopdown(vector<Sensor> &s, vector<Sensor> &a, int time) {
 		}
 	}
 	else {
-		int rnd = rand() % (50 * 50);
-		int pos = rnd % 50;
-		float temp_covg = percentcovg(a, s.size());
-		a[pos].active = false;
-		coverage = percentcovg(a, s.size());
-		if ((coverage < temp_covg) && a[pos].energy > 0) {
-			a[pos].active = true;
-//			cout <<"HERE"<<endl;
-//			cout <<"Temp_covg: "<<temp_covg<<endl;
-//			cout <<"COVERAGE: "<<coverage<<endl;
+		while(count != s.size())
+		{
+			int rnd = rand() % (50 * 50);
+			int pos = rnd % 50;
+			float temp_covg = percentcovg(a, s.size());
+			a[pos].active = false;
+			coverage = percentcovg(a, s.size());
+			if ((coverage < temp_covg) && a[pos].energy > 0) {
+				a[pos].active = true;
+				count++;
+				//cout<<"HERE"<<endl;
+			}
+			if(coverage >= temp_covg) {
+				count = s.size();
+				//cout<<"FOUND ONE!"<<endl;
+			}
 		}
 	}
 }
