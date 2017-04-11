@@ -53,6 +53,7 @@ float resenergy(const vector<Sensor> &s, int sensornumber) {
 //Gets the coverage range of sensors at a given round
 float percentcovg(const vector<Sensor> &s, int sensornumber) {
 	float covered = 0;
+	float percent;
 	int distance = 0;
 	for(int i = 0; i < sensornumber; i++) {
 		int rnd = rand() % (50 * 50);
@@ -65,12 +66,15 @@ float percentcovg(const vector<Sensor> &s, int sensornumber) {
 			if(distance <= 5 && s[j].active && s[j].energy > 0)
 			{
 				covered++;
-				j = s.size() - 1;
+				//j = s.size() - 1;
 			}
 		}
 	}
 	//cout <<"PERCENT: "<<(covered/sensornumber)<<endl;
-	return covered/sensornumber;
+	percent = covered/sensornumber;
+	if(percent > 1)
+		percent = 1;
+	return percent;
 }
 
 //Bottom Up Approach
@@ -209,7 +213,7 @@ void greedy(vector<Sensor> &s, vector<Sensor> &a, vector<intpts> &ip,  vector
 		<test> &tba, int &currentpos) {
 	int temp1;
 	int temp2;
-	bool skip;
+	bool skip = false;
 	int counter = 0;
 	if(currentpos == 0) {
 		for (int i = 0; i < ip.size(); i++) {
@@ -222,18 +226,16 @@ void greedy(vector<Sensor> &s, vector<Sensor> &a, vector<intpts> &ip,  vector
 		}
 		for(int i = 0; i < s.size(); i++)
 		{
-			skip = false;
 			for(int j = 0; j < tba.size(); j++)
 			{
 				if(tba[j].pos == i){
 					counter++;
 					skip = true;
 				}
-				if(j == tba.size() - 1 && !skip)
-				{
-					tba.push_back(test(i, 0));
-					j = tba.size() - 1;
-				}
+			}
+			if(skip == false) {
+				tba.push_back(test(i, 0));
+				skip = false;
 			}
 		}
 	}
@@ -261,6 +263,8 @@ int countintpts(int pos, int loc, vector<test> &tba, vector<intpts> &ip, vector<
 
 void activation(vector<Sensor> &a, int &currentpos, vector<test> & tba,
                 vector<Sensor> &s) {
+	cout <<"COUNT: "<<currentpos<<"SIZE: "<<tba.size()<<endl;
+	cout <<"COVERAGE: "<<percentcovg(a, s.size())<<endl;
 	if( tba.size() == currentpos) {
 		return;
 	}

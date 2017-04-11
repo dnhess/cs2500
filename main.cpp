@@ -89,7 +89,7 @@ int main() {
 		//	bottomup(sensor, interpts, active, sensornumber, time1);
 
 		//TODO: FIX THIS
-	//	testbottomup(sensor, interpts, active);
+		//testbottomup(sensor, interpts, active);
 		//Works.... kind of
 	   // testtopdown(sensor,active,time);
 
@@ -99,6 +99,7 @@ int main() {
 		//Problem in this?
 		for(int i = 0; i < active.size(); i++)
 		{
+			cout <<"ACTIVE POS: "<<i<<" STATUS: "<<active[i].active<<endl;
 			if(active[i].active) {
 				active[i].energy--;
 				if (active[i].energy <= 0)
