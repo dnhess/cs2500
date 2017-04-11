@@ -22,16 +22,3 @@ Sensor Sensor ::operator-(Sensor t) {
 	tmp.active = t.active;
 	return tmp;
 }
-
-/*bool Sensor::halfleft(const vector<Sensor> &s, int sensornumber)
-{
-	int count = 0;
-	for(int i = 0; i < sensornumber; i++)
-	{
-		if(s[i].alive == true)
-		{
-			count++;
-		}
-	}
-	return count >= (sensornumber / 2);
-}*/
